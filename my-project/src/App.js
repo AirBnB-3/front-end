@@ -4,6 +4,8 @@ import {Switch, Route, Link} from 'react-router-dom'
 import axios from 'axios'
 import Login from './components/Login'
 import Signup from './components/Signup'
+import * as Yup from 'yup'
+import formSchema from './validation/formSchema';
 
 const initialLoginValues = {
   username:'',
@@ -18,15 +20,40 @@ const initialSignupValues = {
   email:'',
 }
 
+const initialErrors= {
+  firstName: '',
+  lastName: '',
+  username: '',
+  email: '',
+  password: '',
+}
+
 
 
 function App() {
 
   const [loginValues, setLoginValues] = useState(initialLoginValues)
   const [signupValues, setSignupValues] = useState(initialSignupValues)
+  const [formErrors, setFormErrors] = useState(initialErrors)
 
   const onInputChange = evt => {
     const {name, value} = evt.target
+
+    Yup
+    .reach(formSchema, name)
+    .validate(value)
+    .then(() => {
+      setFormErrors({
+        ...formErrors,
+        [name]:''
+      })
+    })
+    .catch(err => {
+      setFormErrors({
+        ...formErrors,
+        [name]: err.errors[0]
+      })
+    })
 
     setLoginValues({
       ...loginValues,
@@ -40,20 +67,21 @@ function App() {
   }
 
   const onSignup = evt => {
-    evt.preventDefault()
+    // evt.preventDefault()
 
-    const newUser = {
-      firstName: signupValues.firstName,
-      lastName: signupValues.lastName,
-      username: signupValues.username,
-      password: signupValues.password,
-      email: signupValues.email
-    }
+    // const newUser = {
+    //   firstName: signupValues.firstName,
+    //   lastName: signupValues.lastName,
+    //   username: signupValues.username,
+    //   password: signupValues.password,
+    //   email: signupValues.email
+    // }
 
     setSignupValues(initialSignupValues)
   }
 
   const onLogin = evt => {
+    // evt.preventDefault()
     setLoginValues(initialLoginValues)
   }
 
@@ -70,11 +98,11 @@ function App() {
 
       <Switch>
         <Route path='/login'>
-          <Login onSubmit={onLogin} values={loginValues}/>
+          <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
         </Route>
 
         <Route path='/signup'>
-          <Signup onSubmit={onSignup} values={signupValues}/>
+          <Signup onSubmit={onSignup} onChange={onInputChange} values={signupValues} errors={formErrors}/>
         </Route>
 
         <Route path='/'>

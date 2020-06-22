@@ -3,20 +3,8 @@ import styled from 'styled-components'
 import {Form, Button, Label} from '../style/style'
 
 
-// const Form = styled.form`
-//     width:60%;
-//     display:flex;
-//     flex-direction:column;
-//     align-items:center;
-// `
-
-// const Button = styled.button`
-//     width:10%;
-//     display:flex;
-// `
-
 export default function Login(props) {
-    const {onSubmit, values} = props
+    const {onSubmit, values, onChange} = props
 
 
     return(
@@ -29,6 +17,7 @@ export default function Login(props) {
                 <input
                     type='text'
                     name='username'
+                    onChange={onChange}
                 />
             </Label>
 
@@ -36,6 +25,7 @@ export default function Login(props) {
                 <input 
                     type='text'
                     name='password'
+                    onChange={onChange}
                 />
             </Label>
 

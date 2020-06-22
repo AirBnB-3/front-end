@@ -11,13 +11,17 @@ const Form = styled.form`
 
 const Button = styled.button`
     width:10%;
-    display:flex;
 `
 
 const Label = styled.label`
     margin: 2%;
 `
 
+const Error = styled.p`
+    font-size:.8rem;
+    color: red;
+`
 
 
-export {Form, Button, Label }
+
+export {Form, Button, Label, Error }
