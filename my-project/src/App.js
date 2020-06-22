@@ -5,6 +5,22 @@ import axios from 'axios'
 import Login from './components/Login'
 
 function App() {
+  const initialLoginValues = {
+    username='',
+    password='',
+  }
+
+  const initialSignupValues = {
+    firstName='',
+    lastName='',
+    username='',
+    password='',
+    email='',
+    terms='',
+  }
+
+
+
   return (
     <div className="App">
       <nav className="App-header">
