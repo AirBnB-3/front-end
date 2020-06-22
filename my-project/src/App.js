@@ -3,22 +3,25 @@ import './App.css';
 import {Switch, Route, Link} from 'react-router-dom'
 import axios from 'axios'
 import Login from './components/Login'
+import Signup from './components/Signup'
+
+const initialLoginValues = {
+  username:'',
+  password:'',
+}
+
+const initialSignupValues = {
+  firstName:'',
+  lastName:'',
+  username:'',
+  password:'',
+  email:'',
+  terms:'',
+}
+
+
 
 function App() {
-  const initialLoginValues = {
-    username='',
-    password='',
-  }
-
-  const initialSignupValues = {
-    firstName='',
-    lastName='',
-    username='',
-    password='',
-    email='',
-    terms='',
-  }
-
 
 
   return (
@@ -38,7 +41,7 @@ function App() {
         </Route>
 
         <Route path='/signup'>
-          {/* <Signup /> */}
+          <Signup />
         </Route>
 
         <Route path='/'>

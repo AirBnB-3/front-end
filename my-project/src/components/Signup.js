@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
+import styled from 'styled-components'
 
 
 
-export default function Login(props) {
+export default function Signup(props) {
 
 
 
@@ -48,7 +49,7 @@ export default function Login(props) {
             </label>
 
 
-            <button id='submitBtn'>Login</button>
+            <button id='submitBtn'>Sign Up</button>
         </form>
     )
 }
