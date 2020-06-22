@@ -1,55 +1,55 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
-
+import {Form, Button, Label} from '../style/style'
 
 
 export default function Signup(props) {
 
-
+    const {onSubmit, values} = props
 
     return(
-        <form>
+        <Form onSubmit={onSubmit}>
             <div>
             <h3>Sign Up:</h3>
             </div>
             
-            <label>First Name:&nbsp;
+            <Label>First Name:&nbsp;
                 <input
                     type='text'
                     name='firstName'
                 />
-            </label>
+            </Label>
 
-            <label>Last Name:&nbsp;
+            <Label>Last Name:&nbsp;
                 <input
                     type='text'
                     name='lastName'
                 />
-            </label>
+            </Label>
 
-            <label>Email:&nbsp;
+            <Label>Email:&nbsp;
                 <input
                     type='email'
                     name='email'
                 />
-            </label>
+            </Label>
 
-            <label>Username:&nbsp;
+            <Label>Username:&nbsp;
                 <input
                     type='text'
                     name='username'
                 />
-            </label>
+            </Label>
 
-            <label>Password:&nbsp;
+            <Label>Password:&nbsp;
                 <input 
                     type='text'
                     name='password'
                 />
-            </label>
+            </Label>
 
 
-            <button id='submitBtn'>Sign Up</button>
-        </form>
+            <Button id='submitBtn'>Sign Up</Button>
+        </Form>
     )
 }

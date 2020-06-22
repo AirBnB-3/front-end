@@ -16,32 +16,65 @@ const initialSignupValues = {
   username:'',
   password:'',
   email:'',
-  terms:'',
 }
 
 
 
 function App() {
 
+  const [loginValues, setLoginValues] = useState(initialLoginValues)
+  const [signupValues, setSignupValues] = useState(initialSignupValues)
+
+  const onInputChange = evt => {
+    const {name, value} = evt.target
+
+    setLoginValues({
+      ...loginValues,
+      [name]: value
+    })
+
+    setSignupValues({
+      ...signupValues,
+      [name]: value
+    })
+  }
+
+  const onSignup = evt => {
+    evt.preventDefault()
+
+    const newUser = {
+      firstName: signupValues.firstName,
+      lastName: signupValues.lastName,
+      username: signupValues.username,
+      password: signupValues.password,
+      email: signupValues.email
+    }
+
+    setSignupValues(initialSignupValues)
+  }
+
+  const onLogin = evt => {
+    setLoginValues(initialLoginValues)
+  }
 
   return (
     <div className="App">
       <nav className="App-header">
         <h1>AirBnb Price Finder</h1>
         <div className='nav-links'>
-          <Link to='/'>Home</Link>
-          <Link to='/login'>Login</Link>
-          <Link to='/signup'>Signup</Link>
+          <Link className='link' to='/'>Home</Link>
+          <Link className='link' to='/login'>Login</Link>
+          <Link className='link' to='/signup'>Signup</Link>
         </div>
       </nav>
 
       <Switch>
         <Route path='/login'>
-          <Login />
+          <Login onSubmit={onLogin} values={loginValues}/>
         </Route>
 
         <Route path='/signup'>
-          <Signup />
+          <Signup onSubmit={onSignup} values={signupValues}/>
         </Route>
 
         <Route path='/'>
