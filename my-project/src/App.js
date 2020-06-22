@@ -1,9 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
-import {Switch, Route, Link} from 'react-router-dom'
-import axios from 'axios'
-import Login from './components/Login'
-import Signup from './components/Signup'
+import {BrowserRouter as Router, Switch, Route, Link, useHistory} from 'react-router-dom';
+import axios from 'axios';
+import axiosWithAuth from './utils/axiosWithAuth';
+
+
+import Login from './components/Login';
+import Signup from './components/Signup';
+import CreateListing from './components/CreateListing';
+import UserProfile from './components/UserProfile';
+import ListingCard from './components/ListingCard';
+import PrivateRoute from './components/PrivateRoute';
 
 const initialLoginValues = {
   username:'',
@@ -17,7 +24,6 @@ const initialSignupValues = {
   password:'',
   email:'',
 }
-
 
 
 function App() {
@@ -39,8 +45,8 @@ function App() {
     })
   }
 
-  const onSignup = evt => {
-    evt.preventDefault()
+  const onSignup = e => {
+    e.preventDefault()
 
     const newUser = {
       firstName: signupValues.firstName,
@@ -50,14 +56,39 @@ function App() {
       email: signupValues.email
     }
 
-    setSignupValues(initialSignupValues)
-  }
+        axios
+            .post('/createnewuser', {username: newUser.username , password:newUser.password })
+            .then(res=>{
+                console.log(res)
+                // history.push('/login')
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+}
 
-  const onLogin = evt => {
-    setLoginValues(initialLoginValues)
+
+  const onLogin = e => {
+    e.preventDefault()
+    axios
+        .post('/login', {username: loginValues.username , password: loginValues.password })
+        .then(res=>{
+            localStorage.setItem('token', res.data.token)
+            localStorage.setItem('user id', res.data.userId)
+            const token = localStorage.getItem('token')
+            const userId = localStorage.getItem('user id')
+            // history.push('/userprofile')
+            console.log(token)
+            console.log(userId)
+            console.log(res)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
   }
 
   return (
+    <Router>
     <div className="App">
       <nav className="App-header">
         <h1>AirBnb Price Finder</h1>
@@ -69,6 +100,11 @@ function App() {
       </nav>
 
       <Switch>
+
+      <PrivateRoute exact path='/userprofile' component={UserProfile}/>
+      <PrivateRoute exact path='/createlisting' component={CreateListing}/>
+      <PrivateRoute path='/listingcard/:id' component={ListingCard}/>
+
         <Route path='/login'>
           <Login onSubmit={onLogin} values={loginValues}/>
         </Route>
@@ -84,11 +120,8 @@ function App() {
         </Route>
       </Switch>
 
-
-
-
-
     </div>
+    </Router>
   );
 }
 
