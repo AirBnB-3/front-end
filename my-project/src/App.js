@@ -28,6 +28,9 @@ const initialErrors= {
   password: '',
 }
 
+const initialDisabled= true
+const initialUsers = []
+
 
 
 function App() {
@@ -35,6 +38,18 @@ function App() {
   const [loginValues, setLoginValues] = useState(initialLoginValues)
   const [signupValues, setSignupValues] = useState(initialSignupValues)
   const [formErrors, setFormErrors] = useState(initialErrors)
+  const [disabled, setDisabled] = useState(initialDisabled)
+  const [users, setUsers] = useState(initialUsers)
+
+  const getUsers = () => {
+    axios.get('https://seanmx96-airbnb-optimal-price.herokuapp.com/swagger-ui.html#/users')
+    .then(res => {
+      setUsers(res.data.data)
+    })
+    .catch(err => {
+      debugger
+    })
+  }
 
   const onInputChange = evt => {
     const {name, value} = evt.target
@@ -66,17 +81,28 @@ function App() {
     })
   }
 
+  const postNewUser = newUser => {
+    axios.post('https://seanmx96-airbnb-optimal-price.herokuapp.com/swagger-ui.html#/createnewuser', newUser)
+    .then(res => {
+      setUsers([...users, res.data])
+    })
+    .catch(err => {
+      debugger
+    })
+  }
+
   const onSignup = evt => {
     // evt.preventDefault()
 
-    // const newUser = {
-    //   firstName: signupValues.firstName,
-    //   lastName: signupValues.lastName,
-    //   username: signupValues.username,
-    //   password: signupValues.password,
-    //   email: signupValues.email
-    // }
+    const newUser = {
+      firstName: signupValues.firstName,
+      lastName: signupValues.lastName,
+      username: signupValues.username,
+      password: signupValues.password,
+      email: signupValues.email
+    }
 
+    postNewUser(newUser)
     setSignupValues(initialSignupValues)
   }
 
@@ -85,6 +111,13 @@ function App() {
     setLoginValues(initialLoginValues)
   }
 
+
+  useEffect(() => {
+    formSchema.isValid(signupValues).then(valid => {
+      setDisabled(!valid);
+    });
+  }, [signupValues])
+
   return (
     <div className="App">
       <nav className="App-header">
@@ -92,7 +125,7 @@ function App() {
         <div className='nav-links'>
           <Link className='link' to='/'>Home</Link>
           <Link className='link' to='/login'>Login</Link>
-          <Link className='link' to='/signup'>Signup</Link>
+          <Link className='link' to='/signup'>Sign Up</Link>
         </div>
       </nav>
 
@@ -102,12 +135,13 @@ function App() {
         </Route>
 
         <Route path='/signup'>
-          <Signup onSubmit={onSignup} onChange={onInputChange} values={signupValues} errors={formErrors}/>
+          <Signup onSubmit={onSignup} onChange={onInputChange} values={signupValues} errors={formErrors} disabled={disabled}/>
         </Route>
 
         <Route path='/'>
           <div className='home'>
             <p>Our app will help you find the best price for your property, and guarantee an increase in guests!</p>
+            {console.log(users)}
           </div>
         </Route>
       </Switch>

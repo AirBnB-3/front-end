@@ -7,6 +7,9 @@ const Form = styled.form`
     flex-direction:column;
     align-items:center;
     border: 2px solid black;
+    background-color:lightgray;
+    padding: 0% 0% 3% 0%;
+    margin-top: 3%;
 `
 
 const Button = styled.button`

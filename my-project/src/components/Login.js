@@ -10,7 +10,7 @@ export default function Login(props) {
     return(
         <Form onSubmit={onSubmit}>
             <div>
-            <h3>Login:</h3>
+            <h2>Login:</h2>
             </div>
             
             <Label>Username:&nbsp;

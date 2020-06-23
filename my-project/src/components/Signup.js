@@ -5,12 +5,12 @@ import {Form, Button, Label, Error} from '../style/style'
 
 export default function Signup(props) {
 
-    const {onSubmit, values, onChange, errors} = props
+    const {onSubmit, values, onChange, errors, disabled} = props
 
     return(
         <Form onSubmit={onSubmit}>
             <div>
-            <h3>Sign Up:</h3>
+            <h2>Sign Up:</h2>
             </div>
             
             <Label>First Name:&nbsp;
@@ -59,7 +59,7 @@ export default function Signup(props) {
             <Error>{errors.password}</Error>
 
 
-            <Button id='submitBtn'>Sign Up</Button>
+            <Button id='submitBtn' disabled={disabled}>Sign Up</Button>
         </Form>
     )
 }
