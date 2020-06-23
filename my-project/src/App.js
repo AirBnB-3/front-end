@@ -4,9 +4,7 @@ import './App.css';
 import {BrowserRouter as Router, Switch, Route, Link, useHistory} from 'react-router-dom';
 import axios from 'axios';
 import axiosWithAuth from './utils/axiosWithAuth';
-
-
-import * as Yup from 'yup'
+import * as Yup from 'yup';
 import formSchema from './validation/formSchema';
 
 import Login from './components/Login';
@@ -46,15 +44,14 @@ function App() {
 
   const [loginValues, setLoginValues] = useState(initialLoginValues)
   const [signupValues, setSignupValues] = useState(initialSignupValues)
-<<<<<<< HEAD
   const history = useHistory();
-=======
   const [formErrors, setFormErrors] = useState(initialErrors)
   const [disabled, setDisabled] = useState(initialDisabled)
   const [users, setUsers] = useState(initialUsers)
 
   const getUsers = () => {
-    axios.get('https://seanmx96-airbnb-optimal-price.herokuapp.com/swagger-ui.html#/users')
+    axiosWithAuth()
+    .get('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/users')
     .then(res => {
       setUsers(res.data.data)
     })
@@ -62,7 +59,6 @@ function App() {
       debugger
     })
   }
->>>>>>> 0539225ac5cdb8afac90863b85a7d6928a14da4f
 
   const onInputChange = evt => {
     const {name, value} = evt.target
@@ -95,7 +91,7 @@ function App() {
   }
 
   const postNewUser = newUser => {
-    axios.post('https://seanmx96-airbnb-optimal-price.herokuapp.com/swagger-ui.html#/createnewuser', newUser)
+    axios.post('https://seanmx96-airbnb-optimal-price.herokuapp.com/createnewuser', newUser)
     .then(res => {
       setUsers([...users, res.data])
     })
@@ -114,15 +110,9 @@ function App() {
       password: signupValues.password,
       email: signupValues.email
     }
-<<<<<<< HEAD
 
         axios
-            .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/createnewuser', {
-              "username": newUser.username , 
-              "primaryemail": newUser.email, 
-              "password": newUser.password,
-              "listings": [] 
-            })
+            .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/createnewuser', newUser)
             .then(res=>{
                 console.log(res)
                 history.push('http://localhost:3000/login')
@@ -131,13 +121,6 @@ function App() {
                 console.log(err)
             })
 }
-=======
-    
-    postNewUser(newUser)
-    setSignupValues(initialSignupValues)
-  }
->>>>>>> 0539225ac5cdb8afac90863b85a7d6928a14da4f
-
 
   const onLogin = e => {
     e.preventDefault()
