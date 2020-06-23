@@ -54,7 +54,7 @@ function App() {
   const [users, setUsers] = useState(initialUsers)
 
   const getUsers = () => {
-    axios.get('https://seanmx96-airbnb-optimal-price.herokuapp.com/swagger-ui.html#/users')
+    axios.get('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/users')
     .then(res => {
       setUsers(res.data.data)
     })
@@ -130,7 +130,7 @@ function App() {
             .catch(err=>{
                 console.log(err)
             })
-}
+  
 
     
     postNewUser(newUser)
