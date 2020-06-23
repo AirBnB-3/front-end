@@ -227,11 +227,11 @@ const initialListings = []
           <UserProfile />
         </Route> */}
 
-        <Route path='/login'>
+        <Route exact path='/login'>
           <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
         </Route>
 
-        <Route path='/signup'>
+        <Route exact path='/signup'>
           <Signup onSubmit={onSignup} onChange={onInputChange} values={signupValues} errors={formErrors} disabled={disabled}/>
           {/* <CreateListing onChange={onAddListing} values={listingValues}/> */}
         </Route>

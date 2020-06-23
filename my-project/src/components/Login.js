@@ -23,7 +23,7 @@ export default function Login(props) {
 
             <Label>Password:&nbsp;
                 <input 
-                    type='text'
+                    type='password'
                     name='password'
                     onChange={onChange}
                 />
