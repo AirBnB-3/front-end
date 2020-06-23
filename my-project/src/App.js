@@ -46,7 +46,7 @@ const initialListingValues= {
   petsallowed:'',
 }
 
-const initialDisabled= true
+const initialDisabled= false
 const initialUsers = []
 const initialListings = []
 
@@ -66,7 +66,7 @@ const initialListings = []
     axiosWithAuth()
     .get('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/users')
     .then(res => {
-      setUsers(res.data.data)
+      setUsers(res.data)
     })
     .catch(err => {
       debugger
@@ -106,6 +106,8 @@ const initialListings = []
       ...listingValues,
       [name]: value
     })
+
+    // console.log(signupValues)
   }
 
   const postNewUser = newUser => {
@@ -119,25 +121,29 @@ const initialListings = []
   }
 
   const onSignup = evt => {
-    // evt.preventDefault()
+    evt.preventDefault()
 
     const newUser = {
       firstName: signupValues.firstName,
       lastName: signupValues.lastName,
       username: signupValues.username,
       password: signupValues.password,
-      email: signupValues.email
+      primaryemail: signupValues.email
     }
 
         axios
             .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/createnewuser', newUser)
             .then(res=>{
-                console.log(res)
+                console.log(res.data)
                 history.push('http://localhost:3000/login')
             })
             .catch(err=>{
                 console.log(err)
             })
+            // .finally(() => {
+            //   getUsers()
+            //   console.log(users)
+            // })
   }
   
 
@@ -179,7 +185,7 @@ const initialListings = []
     }
 
     axios
-      .post('https://seanmx96-airbnb-optimal-price.herokuapp.com//listings/listing/', newListing)
+      .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/listings/user/:id/', newListing)
       .then(res => {
           console.log(res)
           history.push('http://localhost:3000/userprofile')
@@ -189,11 +195,11 @@ const initialListings = []
       })
   }
 
-  useEffect(() => {
-    formSchema.isValid(signupValues).then(valid => {
-      setDisabled(!valid);
-    });
-  }, [signupValues])
+  // useEffect(() => {
+  //   formSchema.isValid(signupValues).then(valid => {
+  //     setDisabled(!valid);
+  //   });
+  // }, [signupValues])
 
   return (
     <Router>
@@ -210,16 +216,16 @@ const initialListings = []
       <Switch>
 
       <PrivateRoute exact path='/userprofile' component={UserProfile}/>
-      <PrivateRoute exact path='/createlisting' component={CreateListing}/>
-      <PrivateRoute path='/listingcard/:id' component={ListingCard}/>
+      {/* <PrivateRoute exact path='/createlisting' component={CreateListing}/>
+      <PrivateRoute path='/listingcard/:id' component={ListingCard}/> */}
 
         <Route path='/createlisting'>
-          {/* <CreateListing onChange={onInputChange} values={listingValues}/> */}
+          <CreateListing onChange={onInputChange} values={listingValues}/>
         </Route>
 
-        <Route path='/userprofile'>
+        {/* <Route path='/userprofile'>
           <UserProfile />
-        </Route>
+        </Route> */}
 
         <Route path='/login'>
           <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
@@ -227,15 +233,9 @@ const initialListings = []
 
         <Route path='/signup'>
           <Signup onSubmit={onSignup} onChange={onInputChange} values={signupValues} errors={formErrors} disabled={disabled}/>
-          <CreateListing onChange={onAddListing} values={listingValues}/>
+          {/* <CreateListing onChange={onAddListing} values={listingValues}/> */}
         </Route>
 
-        <Route path='/'>
-          <div className='home'>
-            <p>Our app will help you find the best price for your property, and guarantee an increase in guests!</p>
-            {console.log(users)}
-          </div>
-        </Route>
       </Switch>
 
     </div>

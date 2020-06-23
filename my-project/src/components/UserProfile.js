@@ -6,7 +6,7 @@ export default function UserProfile(props){
 
     return(
         <div>
-         <Link className='link' to='/createlisting'>Create A Listing</Link>
+            <h1>Profile</h1>
         </div>
     )
 }
