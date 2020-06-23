@@ -46,7 +46,7 @@ const initialListingValues= {
   petsallowed:'',
 }
 
-const initialDisabled= false
+const initialDisabled= true
 const initialUsers = []
 const initialListings = []
 
@@ -195,11 +195,11 @@ const initialListings = []
       })
   }
 
-  // useEffect(() => {
-  //   formSchema.isValid(signupValues).then(valid => {
-  //     setDisabled(!valid);
-  //   });
-  // }, [signupValues])
+  useEffect(() => {
+    formSchema.isValid(signupValues).then(valid => {
+      setDisabled(!valid);
+    });
+  }, [signupValues])
 
   return (
     <Router>
