@@ -36,11 +36,22 @@ const initialErrors= {
   password: '',
 }
 
+const initialListingValues= {
+  listingId:'',
+  listingname:'',
+  location:'',
+  maxnumguests:'',
+  minnumnights:'',
+  numbeds:'',
+  petsallowed:'',
+}
+
 const initialDisabled= true
 const initialUsers = []
+const initialListings = []
 
 
-function App() {
+ function App() {
 
   const [loginValues, setLoginValues] = useState(initialLoginValues)
   const [signupValues, setSignupValues] = useState(initialSignupValues)
@@ -48,6 +59,8 @@ function App() {
   const [formErrors, setFormErrors] = useState(initialErrors)
   const [disabled, setDisabled] = useState(initialDisabled)
   const [users, setUsers] = useState(initialUsers)
+  const [listingValues, setListingValues] = useState(initialListingValues)
+  const [listings, setListings] = useState(initialListings)
 
   const getUsers = () => {
     axiosWithAuth()
@@ -88,6 +101,11 @@ function App() {
       ...signupValues,
       [name]: value
     })
+
+    setListingValues({
+      ...listingValues,
+      [name]: value
+    })
   }
 
   const postNewUser = newUser => {
@@ -120,6 +138,7 @@ function App() {
             .catch(err=>{
                 console.log(err)
             })
+  }
   
 
   const onLogin = e => {
@@ -147,6 +166,28 @@ function App() {
         })
   }
 
+  const onAddListing = e => {
+    e.preventDefault()
+    
+    const newListing = {
+      listingname: listingValues.listingname,
+      location: listingValues.location,
+      maxnumguests: listingValues.maxnumguests,
+      minnumnights: listingValues.minnumnights,
+      numbeds: listingValues.numbeds,
+      petsallowed: listingValues.petsallowed
+    }
+
+    axios
+      .post('https://seanmx96-airbnb-optimal-price.herokuapp.com//listings/listing/', newListing)
+      .then(res => {
+          console.log(res)
+          history.push('http://localhost:3000/userprofile')
+      })
+      .catch(err =>{
+        debugger
+      })
+  }
 
   useEffect(() => {
     formSchema.isValid(signupValues).then(valid => {
@@ -172,12 +213,21 @@ function App() {
       <PrivateRoute exact path='/createlisting' component={CreateListing}/>
       <PrivateRoute path='/listingcard/:id' component={ListingCard}/>
 
+        <Route path='/createlisting'>
+          {/* <CreateListing onChange={onInputChange} values={listingValues}/> */}
+        </Route>
+
+        <Route path='/userprofile'>
+          <UserProfile />
+        </Route>
+
         <Route path='/login'>
           <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
         </Route>
 
         <Route path='/signup'>
           <Signup onSubmit={onSignup} onChange={onInputChange} values={signupValues} errors={formErrors} disabled={disabled}/>
+          <CreateListing onChange={onAddListing} values={listingValues}/>
         </Route>
 
         <Route path='/'>

@@ -23,6 +23,30 @@ const formSchema = Yup.object().shape({
       .string()
       .min(6, 'Password must be at least 6 characters long')
       .required('Required'),
+
+    listingname: Yup
+      .string()
+      .required('Required'),
+    
+    location: Yup
+      .string()
+      .required('Required'),
+
+    maxnumguests: Yup
+      .string()
+      .oneOf(['1', '2', '3', '4', '5', '6'], "Please select an option"),
+
+    minnumnights: Yup
+      .string()
+      .oneOf(['One Night', 'Two Nights', 'Three Nights', 'Four Nights', 'Five Nights', 'Six Nights'], "Please select an option"), 
+      
+    numbeds: Yup
+      .string()
+      .oneOf(['1', '2', '3', '4', '5', '6'], "Please select an option"),
+
+    petsallowed: Yup
+      .string()
+      .oneOf([true, false], 'Please select an option')
   });
 
   export default formSchema
