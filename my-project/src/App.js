@@ -13,6 +13,7 @@ import CreateListing from './components/CreateListing';
 import UserProfile from './components/UserProfile';
 import ListingCard from './components/ListingCard';
 import PrivateRoute from './components/PrivateRoute';
+import {listtingsReducer as reducer} from './reducers/listingsReducer'
 
 
 const initialLoginValues = {
@@ -167,11 +168,11 @@ function App() {
       </nav>
 
       <Switch>
-
-      <PrivateRoute exact path='/userprofile' component={UserProfile}/>
-      <PrivateRoute exact path='/createlisting' component={CreateListing}/>
-      <PrivateRoute path='/listingcard/:id' component={ListingCard}/>
-
+      <Provider store = {store}>
+        <PrivateRoute exact path='/userprofile' component={UserProfile}/>
+        <PrivateRoute exact path='/createlisting' component={CreateListing}/>
+        <PrivateRoute path='/listingcard/:id' component={ListingCard}/>
+      </Provider>
         <Route path='/login'>
           <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
         </Route>
