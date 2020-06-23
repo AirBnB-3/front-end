@@ -1,11 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
-import {Switch, Route, Link} from 'react-router-dom'
-import axios from 'axios'
-import Login from './components/Login'
-import Signup from './components/Signup'
+
+import {BrowserRouter as Router, Switch, Route, Link, useHistory} from 'react-router-dom';
+import axios from 'axios';
+import axiosWithAuth from './utils/axiosWithAuth';
+
+
 import * as Yup from 'yup'
 import formSchema from './validation/formSchema';
+
+import Login from './components/Login';
+import Signup from './components/Signup';
+import CreateListing from './components/CreateListing';
+import UserProfile from './components/UserProfile';
+import ListingCard from './components/ListingCard';
+import PrivateRoute from './components/PrivateRoute';
+
 
 const initialLoginValues = {
   username:'',
@@ -30,7 +40,6 @@ const initialErrors= {
 
 const initialDisabled= true
 const initialUsers = []
-
 
 
 function App() {
@@ -101,14 +110,29 @@ function App() {
       password: signupValues.password,
       email: signupValues.email
     }
-
+    
     postNewUser(newUser)
     setSignupValues(initialSignupValues)
   }
 
-  const onLogin = evt => {
-    // evt.preventDefault()
-    setLoginValues(initialLoginValues)
+
+  const onLogin = e => {
+    e.preventDefault()
+    axios
+        .post('/login', {username: loginValues.username , password: loginValues.password })
+        .then(res=>{
+            localStorage.setItem('token', res.data.token)
+            localStorage.setItem('user id', res.data.userId)
+            const token = localStorage.getItem('token')
+            const userId = localStorage.getItem('user id')
+            // history.push('/userprofile')
+            console.log(token)
+            console.log(userId)
+            console.log(res)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
   }
 
 
@@ -119,6 +143,7 @@ function App() {
   }, [signupValues])
 
   return (
+    <Router>
     <div className="App">
       <nav className="App-header">
         <h1>AirBnb Price Finder</h1>
@@ -130,6 +155,11 @@ function App() {
       </nav>
 
       <Switch>
+
+      <PrivateRoute exact path='/userprofile' component={UserProfile}/>
+      <PrivateRoute exact path='/createlisting' component={CreateListing}/>
+      <PrivateRoute path='/listingcard/:id' component={ListingCard}/>
+
         <Route path='/login'>
           <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
         </Route>
@@ -146,11 +176,8 @@ function App() {
         </Route>
       </Switch>
 
-
-
-
-
     </div>
+    </Router>
   );
 }
 
