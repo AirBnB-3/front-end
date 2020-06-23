@@ -1,9 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
+
 import {BrowserRouter as Router, Switch, Route, Link, useHistory} from 'react-router-dom';
 import axios from 'axios';
 import axiosWithAuth from './utils/axiosWithAuth';
 
+
+import * as Yup from 'yup'
+import formSchema from './validation/formSchema';
 
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -11,6 +15,7 @@ import CreateListing from './components/CreateListing';
 import UserProfile from './components/UserProfile';
 import ListingCard from './components/ListingCard';
 import PrivateRoute from './components/PrivateRoute';
+
 
 const initialLoginValues = {
   username:'',
@@ -25,15 +30,58 @@ const initialSignupValues = {
   email:'',
 }
 
+const initialErrors= {
+  firstName: '',
+  lastName: '',
+  username: '',
+  email: '',
+  password: '',
+}
+
+const initialDisabled= true
+const initialUsers = []
+
 
 function App() {
 
   const [loginValues, setLoginValues] = useState(initialLoginValues)
   const [signupValues, setSignupValues] = useState(initialSignupValues)
+
   const history = useHistory();
+
+  const [formErrors, setFormErrors] = useState(initialErrors)
+  const [disabled, setDisabled] = useState(initialDisabled)
+  const [users, setUsers] = useState(initialUsers)
+
+  const getUsers = () => {
+    axios.get('https://seanmx96-airbnb-optimal-price.herokuapp.com/swagger-ui.html#/users')
+    .then(res => {
+      setUsers(res.data.data)
+    })
+    .catch(err => {
+      debugger
+    })
+  }
+
 
   const onInputChange = evt => {
     const {name, value} = evt.target
+
+    Yup
+    .reach(formSchema, name)
+    .validate(value)
+    .then(() => {
+      setFormErrors({
+        ...formErrors,
+        [name]:''
+      })
+    })
+    .catch(err => {
+      setFormErrors({
+        ...formErrors,
+        [name]: err.errors[0]
+      })
+    })
 
     setLoginValues({
       ...loginValues,
@@ -46,8 +94,18 @@ function App() {
     })
   }
 
-  const onSignup = e => {
-    e.preventDefault()
+  const postNewUser = newUser => {
+    axios.post('https://seanmx96-airbnb-optimal-price.herokuapp.com/swagger-ui.html#/createnewuser', newUser)
+    .then(res => {
+      setUsers([...users, res.data])
+    })
+    .catch(err => {
+      debugger
+    })
+  }
+
+  const onSignup = evt => {
+    // evt.preventDefault()
 
     const newUser = {
       firstName: signupValues.firstName,
@@ -56,6 +114,7 @@ function App() {
       password: signupValues.password,
       email: signupValues.email
     }
+
 
         axios
             .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/createnewuser', {
@@ -72,6 +131,12 @@ function App() {
                 console.log(err)
             })
 }
+
+    
+    postNewUser(newUser)
+    setSignupValues(initialSignupValues)
+  }
+
 
 
   const onLogin = e => {
@@ -99,6 +164,13 @@ function App() {
         })
   }
 
+
+  useEffect(() => {
+    formSchema.isValid(signupValues).then(valid => {
+      setDisabled(!valid);
+    });
+  }, [signupValues])
+
   return (
     <Router>
     <div className="App">
@@ -107,7 +179,7 @@ function App() {
         <div className='nav-links'>
           <Link className='link' to='/'>Home</Link>
           <Link className='link' to='/login'>Login</Link>
-          <Link className='link' to='/signup'>Signup</Link>
+          <Link className='link' to='/signup'>Sign Up</Link>
         </div>
       </nav>
 
@@ -118,16 +190,17 @@ function App() {
       <PrivateRoute path='/listingcard/:id' component={ListingCard}/>
 
         <Route path='/login'>
-          <Login onSubmit={onLogin} values={loginValues}/>
+          <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
         </Route>
 
         <Route path='/signup'>
-          <Signup onSubmit={onSignup} values={signupValues}/>
+          <Signup onSubmit={onSignup} onChange={onInputChange} values={signupValues} errors={formErrors} disabled={disabled}/>
         </Route>
 
         <Route path='/'>
           <div className='home'>
             <p>Our app will help you find the best price for your property, and guarantee an increase in guests!</p>
+            {console.log(users)}
           </div>
         </Route>
       </Switch>
