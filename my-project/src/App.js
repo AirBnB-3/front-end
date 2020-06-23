@@ -30,6 +30,7 @@ function App() {
 
   const [loginValues, setLoginValues] = useState(initialLoginValues)
   const [signupValues, setSignupValues] = useState(initialSignupValues)
+  const history = useHistory();
 
   const onInputChange = evt => {
     const {name, value} = evt.target
@@ -57,10 +58,15 @@ function App() {
     }
 
         axios
-            .post('/createnewuser', {username: newUser.username , password:newUser.password })
+            .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/createnewuser', {
+              "username": newUser.username , 
+              "primaryemail": newUser.email, 
+              "password": newUser.password,
+              "listings": [] 
+            })
             .then(res=>{
                 console.log(res)
-                // history.push('/login')
+                history.push('http://localhost:3000/login')
             })
             .catch(err=>{
                 console.log(err)
@@ -71,13 +77,19 @@ function App() {
   const onLogin = e => {
     e.preventDefault()
     axios
-        .post('/login', {username: loginValues.username , password: loginValues.password })
+        .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/login', `grant_type=password&username=${loginValues.username}&password=${loginValues.password}`, {
+          headers: {
+            Authorization: `Basic ${btoa('lambda-client:lambda-secret')}`,
+            'Content-Type': 'application/x-www-form-urlencoded'
+
+          }
+        })
         .then(res=>{
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('user id', res.data.userId)
             const token = localStorage.getItem('token')
             const userId = localStorage.getItem('user id')
-            // history.push('/userprofile')
+            history.push('/userprofile')
             console.log(token)
             console.log(userId)
             console.log(res)
