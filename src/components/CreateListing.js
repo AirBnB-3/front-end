@@ -117,12 +117,12 @@ export default function CreateListing(props) {
             </Label>
             {/* <Error>{errors.password}</Error> */}
 
-            <h4>Pets Allowed:</h4>
+            {/* <h4>Pets Allowed:</h4>
             <Label>Yes
                     <input 
                         checked={values.petsallowed === true}
                         value='true'
-                        onChange={onChange}
+                        onChange={onCheckboxChange}
                         name='petsallowed'
                         type='radio'
                     />
@@ -131,10 +131,21 @@ export default function CreateListing(props) {
                 <input 
                     checked={values.petsallowed === false}
                     value='false'
-                    onChange={onChange}
+                    onChange={onCheckboxChange}
                     name='petsallowed'
                     type='radio'
                 />
+                </Label> */}
+                <Label>Pets Allowed:&nbsp;
+                    <select
+                        name='petsallowed'
+                        onChange={onChange}
+                        value={values.petsallowed}
+                    >
+                        <option value=''>-- Select One --</option>
+                        <option value='yes'>yes</option>
+                        <option value='no'>no</option>
+                    </select>
                 </Label>
 
             <Button id='submitBtn' disabled={disabled}>Add Listing</Button>

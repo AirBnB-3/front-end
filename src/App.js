@@ -125,34 +125,35 @@ const initialListings = []
 
   const onSignup = evt => {
     evt.preventDefault()
-
     const newUser = {
-      firstName: signupValues.firstName,
-      lastName: signupValues.lastName,
+      firstname: signupValues.firstName,
+      lastname: signupValues.lastName,
       username: signupValues.username,
       password: signupValues.password,
-      primaryemail: signupValues.email
+      primaryemail: signupValues.email,
+      listing: [],
+
     }
 
         axios
             .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/createnewuser', newUser)
             .then(res=>{
                 console.log(res.data)
-                history.push('http://localhost:3000/login')
+                history.push('/login')
+                setSignupValues(initialSignupValues)
             })
             .catch(err=>{
                 console.log(err)
             })
             // .finally(() => {
-            //   getUsers()
-            //   console.log(users)
+            //   history.push('/login')
             // })
   }
   
 
   const onLogin = e => {
     e.preventDefault()
-    axios
+    axiosWithAuth()
         .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/login', `grant_type=password&username=${loginValues.username}&password=${loginValues.password}`, {
           headers: {
             Authorization: `Basic ${btoa('lambda-client:lambda-secret')}`,
@@ -169,6 +170,7 @@ const initialListings = []
             console.log(token)
             console.log(userId)
             console.log(res)
+            setLoginValues(initialLoginValues)
         })
         .catch(err=>{
             console.log(err)
@@ -180,7 +182,9 @@ const initialListings = []
     
     const newListing = {
       listingname: listingValues.listingname,
-      location: listingValues.location,
+      neighborhood: listingValues.neighborhood,
+      zipcode: listingValues.zipcode,
+      roomtype: listingValues.roomtype,
       maxnumguests: listingValues.maxnumguests,
       minnumnights: listingValues.minnumnights,
       numbeds: listingValues.numbeds,
@@ -191,10 +195,14 @@ const initialListings = []
       .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/listings/user/:id/', newListing)
       .then(res => {
           console.log(res)
-          history.push('http://localhost:3000/userprofile')
+          setListings(res.data)
+          // history.push('http://localhost:3000/userprofile')
       })
       .catch(err =>{
         debugger
+      })
+      .finally(() => {
+        console.log(listings)
       })
   }
 
@@ -205,17 +213,16 @@ const initialListings = []
   // }, [signupValues])
 
   return (
-    <Router>
-    <div className="App">
+  <div className="App">
       <nav className="App-header">
-        <h1>AirBnb Price Finder</h1>
+        <h1>AirBnb Price Optimization</h1>
         <div className='nav-links'>
-          <Link className='link' to='/'>Home</Link>
+          <a className='link' href='https://airbnb-3.github.io/user-interface-zave/'>Home</a>
           <Link className='link' to='/login'>Login</Link>
           <Link className='link' to='/signup'>Sign Up</Link>
         </div>
       </nav>
-
+      <div className='body'>
       <Switch>
 
       <PrivateRoute exact path='/userprofile' component={UserProfile}/>
@@ -224,12 +231,8 @@ const initialListings = []
       {/* <PrivateRoute exact path='/createlisting' component={CreateListing}/>
       <PrivateRoute path='/listingcard/:id' component={ListingCard}/> */}
 
-        <Route path='/createlisting'>
+        {/* <Route path='/createlisting'>
           <CreateListing onChange={onInputChange} values={listingValues}/>
-        </Route>
-
-        {/* <Route path='/userprofile'>
-          <UserProfile />
         </Route> */}
 
         <Route exact path='/login'>
@@ -244,7 +247,8 @@ const initialListings = []
       </Switch>
 
     </div>
-    </Router>
+  </div>
+
   );
 }
 
