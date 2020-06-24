@@ -152,7 +152,7 @@ const initialListings = []
 
   const onLogin = e => {
     e.preventDefault()
-    axios
+    axiosWithAuth()
         .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/login', `grant_type=password&username=${loginValues.username}&password=${loginValues.password}`, {
           headers: {
             Authorization: `Basic ${btoa('lambda-client:lambda-secret')}`,
@@ -212,8 +212,7 @@ const initialListings = []
   }, [signupValues])
 
   return (
-    // <Router>
-    <div className="App">
+  <div className="App">
       <nav className="App-header">
         <h1>AirBnb Price Optimization</h1>
         <div className='nav-links'>
@@ -222,7 +221,7 @@ const initialListings = []
           <Link className='link' to='/signup'>Sign Up</Link>
         </div>
       </nav>
-
+      <div className='body'>
       <Switch>
 
       <PrivateRoute exact path='/userprofile'>
@@ -247,7 +246,8 @@ const initialListings = []
       </Switch>
 
     </div>
-    // </Router>
+  </div>
+
   );
 }
 
