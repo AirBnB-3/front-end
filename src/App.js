@@ -122,27 +122,28 @@ const initialListings = []
 
   const onSignup = evt => {
     evt.preventDefault()
-
     const newUser = {
-      firstName: signupValues.firstName,
-      lastName: signupValues.lastName,
+      firstname: signupValues.firstName,
+      lastname: signupValues.lastName,
       username: signupValues.username,
       password: signupValues.password,
-      primaryemail: signupValues.email
+      primaryemail: signupValues.email,
+      listing: [],
+
     }
 
         axios
             .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/createnewuser', newUser)
             .then(res=>{
                 console.log(res.data)
-                history.push('http://localhost:3000/login')
+                history.push('/login')
+                setSignupValues(initialSignupValues)
             })
             .catch(err=>{
                 console.log(err)
             })
             // .finally(() => {
-            //   getUsers()
-            //   console.log(users)
+            //   history.push('/login')
             // })
   }
   
@@ -166,6 +167,7 @@ const initialListings = []
             console.log(token)
             console.log(userId)
             console.log(res)
+            setLoginValues(initialLoginValues)
         })
         .catch(err=>{
             console.log(err)
@@ -202,7 +204,7 @@ const initialListings = []
   }, [signupValues])
 
   return (
-    <Router>
+    // <Router>
     <div className="App">
       <nav className="App-header">
         <h1>AirBnb Price Finder</h1>
@@ -215,16 +217,14 @@ const initialListings = []
 
       <Switch>
 
-      <PrivateRoute exact path='/userprofile' component={UserProfile}/>
+      <PrivateRoute exact path='/userprofile'>
+        <CreateListing onChange={onInputChange} values={listingValues}/>
+      </PrivateRoute>
       {/* <PrivateRoute exact path='/createlisting' component={CreateListing}/>
       <PrivateRoute path='/listingcard/:id' component={ListingCard}/> */}
 
-        <Route path='/createlisting'>
+        {/* <Route path='/createlisting'>
           <CreateListing onChange={onInputChange} values={listingValues}/>
-        </Route>
-
-        {/* <Route path='/userprofile'>
-          <UserProfile />
         </Route> */}
 
         <Route exact path='/login'>
@@ -239,7 +239,7 @@ const initialListings = []
       </Switch>
 
     </div>
-    </Router>
+    // </Router>
   );
 }
 
