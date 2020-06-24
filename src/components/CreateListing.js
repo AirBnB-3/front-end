@@ -1,5 +1,6 @@
 import React from 'react'
 import {Form, Button, Label, Error} from '../style/style'
+import '../style/Form.css'
 
 
 export default function CreateListing(props) {

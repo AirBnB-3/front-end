@@ -15,7 +15,7 @@ const Form = styled.form`
 `
 
 const Button = styled.button`
-    width:10%;
+    width:15%;
     color: #FF5A5F;
     border: 2px solid #FF5A5F;
     border-radius:20px;
@@ -26,6 +26,8 @@ const Label = styled.label`
     background: rgba(0, 0, 0, 0.8);
     padding: 1%;
     border-radius:20px;
+    width:40%;
+    font-size: 1.2rem;
 `
 
 const Error = styled.p`
@@ -33,6 +35,13 @@ const Error = styled.p`
     color: red;
 `
 
+const FormContainer= styled.div`
+    width:100%;
+    display:flex;
+    align-items:center;
+    flex-direction: column;
+`
 
 
-export {Form, Button, Label, Error }
+
+export {Form, Button, Label, Error, FormContainer}

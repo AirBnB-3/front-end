@@ -225,13 +225,15 @@ const initialListings = []
       <div className='body'>
       <Switch>
 
-      <PrivateRoute exact path='/userprofile' component={UserProfile}/>
+      <PrivateRoute exact path='/userprofile'>
+        <UserProfile onChange={onInputChange} values={listingValues}/>
+      </PrivateRoute>
       <PrivateRoute exact path='/listingcard' component={ListingCard}/>
    
       {/* <PrivateRoute exact path='/createlisting' component={CreateListing}/>
       <PrivateRoute path='/listingcard/:id' component={ListingCard}/> */}
 
-        {/* <Route path='/createlisting'>
+        {/* <PrivateRoute exact path='/createlisting'>
           <CreateListing onChange={onInputChange} values={listingValues}/>
         </Route> */}
 
