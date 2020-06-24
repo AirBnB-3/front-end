@@ -39,7 +39,9 @@ const initialErrors= {
 const initialListingValues= {
   listingId:'',
   listingname:'',
-  location:'',
+  neighborhood:'',
+  zipcode:'',
+  roomtype:'',
   maxnumguests:'',
   minnumnights:'',
   numbeds:'',
@@ -179,7 +181,9 @@ const initialListings = []
     
     const newListing = {
       listingname: listingValues.listingname,
-      location: listingValues.location,
+      neighborhood: listingValues.neighborhood,
+      zipcode: listingValues.zipcode,
+      roomtype: listingValues.roomtype,
       maxnumguests: listingValues.maxnumguests,
       minnumnights: listingValues.minnumnights,
       numbeds: listingValues.numbeds,
@@ -190,10 +194,14 @@ const initialListings = []
       .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/listings/user/:id/', newListing)
       .then(res => {
           console.log(res)
-          history.push('http://localhost:3000/userprofile')
+          setListings(res.data)
+          // history.push('http://localhost:3000/userprofile')
       })
       .catch(err =>{
         debugger
+      })
+      .finally(() => {
+        console.log(listings)
       })
   }
 
@@ -207,9 +215,9 @@ const initialListings = []
     // <Router>
     <div className="App">
       <nav className="App-header">
-        <h1>AirBnb Price Finder</h1>
+        <h1>AirBnb Price Optimization</h1>
         <div className='nav-links'>
-          <Link className='link' to='/'>Home</Link>
+          <a className='link' href='https://airbnb-3.github.io/user-interface-zave/'>Home</a>
           <Link className='link' to='/login'>Login</Link>
           <Link className='link' to='/signup'>Sign Up</Link>
         </div>
@@ -218,7 +226,7 @@ const initialListings = []
       <Switch>
 
       <PrivateRoute exact path='/userprofile'>
-        <CreateListing onChange={onInputChange} values={listingValues}/>
+        <CreateListing onSubmit={onAddListing} onChange={onInputChange} values={listingValues}/>
       </PrivateRoute>
       {/* <PrivateRoute exact path='/createlisting' component={CreateListing}/>
       <PrivateRoute path='/listingcard/:id' component={ListingCard}/> */}
