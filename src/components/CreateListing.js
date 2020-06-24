@@ -3,10 +3,9 @@ import {Form, Button, Label, Error} from '../style/style'
 
 
 export default function CreateListing(props) {
-
+    const userId = localStorage.getItem('user id')
     const {onSubmit, values, onChange, errors, disabled} = props
-    console.log(values)
-
+  
     return(
         <Form onSubmit={onSubmit}>
             <div>
@@ -23,11 +22,45 @@ export default function CreateListing(props) {
             </Label>
             {/* <Error>{errors.listingname}</Error> */}
 
-            <Label>Location:&nbsp;
+            <Label>Room type:&nbsp;
+                <select
+                    name='roomtype'
+                    value={values.roomtype}
+                    onChange={onChange}
+                >
+                    <option value=''>-- None --</option>
+                    <option value='shared room'>Shared</option>
+                    <option value=''>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                    <option value='6'>6</option>
+                </select>
+            </Label>
+
+            <Label>Zip Code:&nbsp;
                 <input
                     type='text'
-                    name='location'
-                    value={values.location}
+                    name='zipcode'
+                    value={values.zipcode}
+                    onChange={onChange}
+                />
+            </Label>
+
+            <Label>City:&nbsp;
+                <input
+                    type='text'
+                    name='city'
+                    value={values.city}
+                    onChange={onChange}
+                />
+            </Label>
+
+            <Label>Neighborhood:&nbsp;
+                <input
+                    type='text'
+                    name='neighborhood'
+                    value={values.neighborhood}
                     onChange={onChange}
                 />
             </Label>

@@ -39,14 +39,17 @@ const initialErrors= {
 const initialListingValues= {
   listingId:'',
   listingname:'',
-  location:'',
+  roomtype: '',
+  zipcode:'',
+  city: '',
+  neighborhood: '',
   maxnumguests:'',
   minnumnights:'',
   numbeds:'',
   petsallowed:'',
 }
 
-const initialDisabled= true
+const initialDisabled= false
 const initialUsers = []
 const initialListings = []
 
@@ -195,11 +198,11 @@ const initialListings = []
       })
   }
 
-  useEffect(() => {
-    formSchema.isValid(signupValues).then(valid => {
-      setDisabled(!valid);
-    });
-  }, [signupValues])
+  // useEffect(() => {
+  //   formSchema.isValid(signupValues).then(valid => {
+  //     setDisabled(!valid);
+  //   });
+  // }, [signupValues])
 
   return (
     <Router>
@@ -216,6 +219,8 @@ const initialListings = []
       <Switch>
 
       <PrivateRoute exact path='/userprofile' component={UserProfile}/>
+      <PrivateRoute exact path='/listingcard' component={ListingCard}/>
+   
       {/* <PrivateRoute exact path='/createlisting' component={CreateListing}/>
       <PrivateRoute path='/listingcard/:id' component={ListingCard}/> */}
 
