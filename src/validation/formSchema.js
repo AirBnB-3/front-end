@@ -21,28 +21,22 @@ const formSchema = Yup.object().shape({
       .required('Required'),
 
     listingname: Yup
-      .string()
-      .required('Required'),
+      .string(),
     
     location: Yup
-      .string()
-      .required('Required'),
+      .string(),
 
     maxnumguests: Yup
-      .string()
-      .oneOf(['1', '2', '3', '4', '5', '6'], "Please select an option"),
+      .string(),
 
     minnumnights: Yup
-      .string()
-      .oneOf(['One Night', 'Two Nights', 'Three Nights', 'Four Nights', 'Five Nights', 'Six Nights'], "Please select an option"), 
+      .string(),
       
     numbeds: Yup
-      .string()
-      .oneOf(['1', '2', '3', '4', '5', '6'], "Please select an option"),
+      .string(),
 
     petsallowed: Yup
-      .string()
-      .oneOf([true, false], 'Please select an option')
+      .string(),
   });
 
   export default formSchema
