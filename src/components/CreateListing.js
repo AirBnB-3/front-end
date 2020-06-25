@@ -5,7 +5,15 @@ import '../style/Form.css'
 
 export default function CreateListing(props) {
     
-    const {onSubmit, values, onChange, disabled} = props
+    const {onSubmit, values, disabled, setListingValues, listingValues} = props
+
+    const onChange = evt => {
+        const {name, value} = evt.target
+        setListingValues({
+            ...listingValues,
+            [name]: value
+          })
+        }
   
     return(
         <Form onSubmit={onSubmit}>
@@ -59,7 +67,7 @@ export default function CreateListing(props) {
                 <select
                     name='minnum_nights'
                     onChange={onChange}
-                    value={values.minnum_nights}
+                    value={values.minnumnights}
                 >
                     <option value=''>-- None --</option>
                     <option value='One Night'>One Night</option>

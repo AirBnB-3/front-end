@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 
-import {BrowserRouter as Router, Switch, Route, Link, useHistory} from 'react-router-dom';
+import {BrowserRouter as  Switch, Route, Link, useHistory} from 'react-router-dom';
 import axios from 'axios';
 import axiosWithAuth from './utils/axiosWithAuth';
 import * as Yup from 'yup';
@@ -38,10 +38,11 @@ const initialErrors= {
 
 const initialListingValues= {
   listingId:'',
+  optimalPrice: 0,
   roomtype: '',
   neighbourhood: '',
-  accomodates:'',
-  minnum_nights:'',
+  accomodates:0,
+  minnumnights: 0,
 
 }
 
@@ -65,17 +66,18 @@ const initialListings = []
     // .get('https://reqres.in/api/users/2')
     .get('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/getuserinfo')
     .then(res => {
-      // setUserInfo(res.data.data)
-      console.log(res.data)
+      setUserInfo(res.data)
+      console.log(res.data.userid)
+      localStorage.setItem('userid', res.data.userid)
+      const userid = localStorage.getItem('userid')
+      console.log(userid)
 
 
     })
     .catch(err => {
       debugger
     })
-    // .finally(() =>{
-    //   console.log(userInfo)
-    // })
+    
   }
 
 
@@ -108,10 +110,10 @@ const initialListings = []
       [name]: value
     })
 
-    setListingValues({
-      ...listingValues,
-      [name]: value
-    })
+    // setListingValues({
+    //   ...listingValues,
+    //   [name]: value
+    // })
 
     // console.log(signupValues)
   }
@@ -162,7 +164,7 @@ const initialListings = []
   const onLogin = e => {
     e.preventDefault()
     axiosWithAuth()
-        .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/login', `grant_type=password&username=${loginValues.username}&password=${loginValues.password}`, {
+        .post('/login', `grant_type=password&username=${loginValues.username}&password=${loginValues.password}`, {
           headers: {
             Authorization: `Basic ${btoa('lambda-client:lambda-secret')}`,
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -171,12 +173,12 @@ const initialListings = []
         })
         .then(res=>{
             localStorage.setItem('token', res.data.access_token)
-            localStorage.setItem('user id', res.data.userId)
+            // localStorage.setItem('user id', res.data.userid)
             const token = localStorage.getItem('token')
-            const userId = localStorage.getItem('user id')
+           
             history.push('/userprofile')
             console.log(token)
-            console.log(userId)
+            
             console.log(res)
             setLoginValues(initialLoginValues)
         })
@@ -199,8 +201,8 @@ const initialListings = []
       minnum_nights: listingValues.minnum_nights,
     }
 
-    axios
-      .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/listings/user/:id/', newListing)
+    axiosWithAuth()
+      .post('/listings/:id/', newListing)
       .then(res => {
           console.log(res)
           setListings(res.data)
@@ -246,7 +248,7 @@ const initialListings = []
       </PrivateRoute>
       <PrivateRoute exact path='/listingcard' component={ListingCard}/>
       <PrivateRoute>
-          <CreateListing path='/createlisting' onSubmit={onAddListing} values={listingValues} onChange={onInputChange}/>
+          <CreateListing exact path='/createlisting' onSubmit={onAddListing} values={listingValues} setListingValues={setListingValues} listingValues={listingValues} />
       </PrivateRoute>
    
       {/* <PrivateRoute exact path='/createlisting' component={CreateListing}/>
