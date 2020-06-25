@@ -38,15 +38,11 @@ const initialErrors= {
 
 const initialListingValues= {
   listingId:'',
-  listingname:'',
   roomtype: '',
-  zipcode:'',
-  city: '',
-  neighborhood: '',
-  maxnumguests:'',
-  minnumnights:'',
-  numbeds:'',
-  petsallowed:'',
+  neighbourhood: '',
+  accomodates:'',
+  minnum_nights:'',
+
 }
 
 const initialDisabled= false
@@ -113,15 +109,15 @@ const initialListings = []
     // console.log(signupValues)
   }
 
-  const postNewUser = newUser => {
-    axios.post('https://seanmx96-airbnb-optimal-price.herokuapp.com/createnewuser', newUser)
-    .then(res => {
-      setUsers([...users, res.data])
-    })
-    .catch(err => {
-      debugger
-    })
-  }
+  // const postNewUser = newUser => {
+  //   axios.post('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/user', newUser)
+  //   .then(res => {
+  //     setUsers([...users, res.data])
+  //   })
+  //   .catch(err => {
+
+  //   })
+  // }
 
   const onSignup = evt => {
     evt.preventDefault()
@@ -162,7 +158,7 @@ const initialListings = []
           }
         })
         .then(res=>{
-            localStorage.setItem('token', res.data.token)
+            localStorage.setItem('token', res.data.access_token)
             localStorage.setItem('user id', res.data.userId)
             const token = localStorage.getItem('token')
             const userId = localStorage.getItem('user id')
@@ -181,14 +177,11 @@ const initialListings = []
     e.preventDefault()
     
     const newListing = {
-      listingname: listingValues.listingname,
-      neighborhood: listingValues.neighborhood,
-      zipcode: listingValues.zipcode,
+      
       roomtype: listingValues.roomtype,
-      maxnumguests: listingValues.maxnumguests,
-      minnumnights: listingValues.minnumnights,
-      numbeds: listingValues.numbeds,
-      petsallowed: listingValues.petsallowed
+      neighbourhood: listingValues.neighbourhood,
+      accomodates: listingValues.accomodates,
+      minnum_nights: listingValues.minnum_nights,
     }
 
     axios
@@ -227,6 +220,9 @@ const initialListings = []
 
       <PrivateRoute exact path='/userprofile' component={UserProfile}/>
       <PrivateRoute exact path='/listingcard' component={ListingCard}/>
+      <PrivateRoute>
+          <CreateListing path='/createlisting' onSubmit={onAddListing} values={listingValues} onChange={onInputChange}/>
+      </PrivateRoute>
    
       {/* <PrivateRoute exact path='/createlisting' component={CreateListing}/>
       <PrivateRoute path='/listingcard/:id' component={ListingCard}/> */}
