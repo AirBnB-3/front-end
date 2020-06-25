@@ -245,22 +245,11 @@ const initialListings = []
       <div className='body'>
       <Switch>
 
-      <PrivateRoute exact path='/userprofile'>
-        <UserProfile onChange={onInputChange} values={listingValues} userInfo={userInfo}/>
-      </PrivateRoute>
+      <PrivateRoute exact path='/userprofile' component={UserProfile(userInfo, setUserInfo)}/>
+     
       <PrivateRoute exact path='/listingcard' component={ListingCard}/>
-      <PrivateRoute>
-          <CreateListing exact path='/createlisting' onSubmit={onAddListing} values={listingValues} setListingValues={setListingValues} listingValues={listingValues} />
-      </PrivateRoute>
-   
-      {/* <PrivateRoute exact path='/createlisting' component={CreateListing}/>
-      <PrivateRoute path='/listingcard/:id' component={ListingCard}/> */}
-
-        {/* <PrivateRoute exact path='/createlisting'>
-          <CreateListing onChange={onInputChange} values={listingValues}/>
-        </Route> */}
-
-        <Route exact path='/login'>
+      <PrivateRoute exact path='/createlisting' component={CreateListing} onSubmit={onAddListing} values={listingValues} setListingValues={setListingValues} listingValues={listingValues} />
+      <Route exact path='/login'>
           <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
         </Route>
 
@@ -269,7 +258,7 @@ const initialListings = []
           {/* <CreateListing onChange={onAddListing} values={listingValues}/> */}
         </Route>
 
-      </Switch>
+        </Switch>
 
     </div>
   </div>
