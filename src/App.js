@@ -39,13 +39,10 @@ const initialErrors= {
 const initialListingValues= {
   listingId:'',
   roomtype: '',
-  zipcode:'',
-  city: '',
-  neighborhood: '',
-  maxnumguests:'',
-  minnumnights:'',
-  numbeds:'',
-  petsallowed:'',
+  neighbourhood: '',
+  accomodates:'',
+  minnum_nights:'',
+
 }
 
 const initialDisabled= false
@@ -195,14 +192,11 @@ const initialListings = []
     e.preventDefault()
     
     const newListing = {
-      listingname: listingValues.listingname,
-      neighborhood: listingValues.neighborhood,
-      zipcode: listingValues.zipcode,
+      
       roomtype: listingValues.roomtype,
-      maxnumguests: listingValues.maxnumguests,
-      minnumnights: listingValues.minnumnights,
-      numbeds: listingValues.numbeds,
-      petsallowed: listingValues.petsallowed
+      neighbourhood: listingValues.neighbourhood,
+      accomodates: listingValues.accomodates,
+      minnum_nights: listingValues.minnum_nights,
     }
 
     axios
@@ -251,6 +245,9 @@ const initialListings = []
         <UserProfile onChange={onInputChange} values={listingValues} userInfo={userInfo}/>
       </PrivateRoute>
       <PrivateRoute exact path='/listingcard' component={ListingCard}/>
+      <PrivateRoute>
+          <CreateListing path='/createlisting' onSubmit={onAddListing} values={listingValues} onChange={onInputChange}/>
+      </PrivateRoute>
    
       {/* <PrivateRoute exact path='/createlisting' component={CreateListing}/>
       <PrivateRoute path='/listingcard/:id' component={ListingCard}/> */}
