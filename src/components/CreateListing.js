@@ -1,10 +1,10 @@
 import React from 'react'
-import {Form, Button, Label, Error} from '../style/style'
+import {Form, Button, Label} from '../style/style'
 
 
 export default function CreateListing(props) {
     
-    const {onSubmit, values, onChange, errors, disabled} = props
+    const {onSubmit, values, onChange, disabled} = props
   
     return(
         <Form onSubmit={onSubmit}>
