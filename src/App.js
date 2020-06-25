@@ -66,9 +66,7 @@ const initialListings = []
     .get('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/getuserinfo')
     .then(res => {
       // setUserInfo(res.data.data)
-      console.log(res.data)
-
-
+      setUserInfo(res.data)
     })
     .catch(err => {
       debugger
@@ -220,20 +218,20 @@ const initialListings = []
   //   });
   // }, [signupValues])
 
-  useEffect(() => {
-    axios
-      .get('https://reqres.in/api/users/')
-      .then(res => {
-        console.log(res.data)
-      })
-  }, signupValues)
+  // useEffect(() => {
+  //   axios
+  //     .get('https://reqres.in/api/users/')
+  //     .then(res => {
+  //       console.log(res.data)
+  //     })
+  // }, [signupValues])
 
   return (
   <div className="App">
       <nav className="App-header">
         <h1>AirBnb Price Optimization</h1>
         <div className='nav-links'>
-          <a className='link' href='https://airbnb-3.github.io/user-interface-zave/'>Home</a>
+          <a className='link' href='https://airbnb-3.github.io/user-interface-zave/'>About</a>
           <Link className='link' to='/login'>Login</Link>
           <Link className='link' to='/signup'>Sign Up</Link>
         </div>
@@ -245,9 +243,9 @@ const initialListings = []
         <UserProfile onChange={onInputChange} values={listingValues} userInfo={userInfo}/>
       </PrivateRoute>
       <PrivateRoute exact path='/listingcard' component={ListingCard}/>
-      <PrivateRoute>
+      {/* <PrivateRoute>
           <CreateListing path='/createlisting' onSubmit={onAddListing} values={listingValues} onChange={onInputChange}/>
-      </PrivateRoute>
+      </PrivateRoute> */}
    
       {/* <PrivateRoute exact path='/createlisting' component={CreateListing}/>
       <PrivateRoute path='/listingcard/:id' component={ListingCard}/> */}

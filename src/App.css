@@ -53,10 +53,16 @@
   border:4px solid#FF5A5F;
   border-radius: 20px;
   padding: .5% 1%;
+  width: 10%;
+  text-transform: uppercase;
 }
 
 h1{
   font-size: 2rem;
+}
+
+.user-welcome{
+  line-height: 1;
 }
 
 h2{

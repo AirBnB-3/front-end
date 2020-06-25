@@ -11,7 +11,10 @@ export default function UserProfile(props){
 
     return(
         <FormContainer>
-            <h1 className='profile'>Welcome {userInfo.first_name}</h1>
+            <div className='user-welcome'>
+            <h1 className='profile'>Welcome {userInfo.firstname}</h1>
+            <p>{userInfo.primaryemail}</p>
+            </div>
             <CreateListing onChange={onChange} values={values}/>
             {console.log(userInfo)}
         </FormContainer>
