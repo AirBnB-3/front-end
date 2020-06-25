@@ -46,7 +46,6 @@ const initialListingValues= {
 }
 
 const initialDisabled= false
-const initialUsers = []
 const initialListings = []
 
 
@@ -57,20 +56,28 @@ const initialListings = []
   const history = useHistory();
   const [formErrors, setFormErrors] = useState(initialErrors)
   const [disabled, setDisabled] = useState(initialDisabled)
-  const [users, setUsers] = useState(initialUsers)
+  const [userInfo, setUserInfo] = useState({})
   const [listingValues, setListingValues] = useState(initialListingValues)
   const [listings, setListings] = useState(initialListings)
 
-  const getUsers = () => {
+  const getUserInfo = () => {
     axiosWithAuth()
-    .get('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/users')
+    // .get('https://reqres.in/api/users/2')
+    .get('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/getuserinfo')
     .then(res => {
-      setUsers(res.data)
+      // setUserInfo(res.data.data)
+      console.log(res.data)
+
+
     })
     .catch(err => {
       debugger
     })
+    // .finally(() =>{
+    //   console.log(userInfo)
+    // })
   }
+
 
   const onInputChange = evt => {
     const {name, value} = evt.target
@@ -110,12 +117,12 @@ const initialListings = []
   }
 
   // const postNewUser = newUser => {
-  //   axios.post('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/user', newUser)
+  //   axios.post('https://seanmx96-airbnb-optimal-price.herokuapp.com/createnewuser', newUser)
   //   .then(res => {
   //     setUsers([...users, res.data])
   //   })
   //   .catch(err => {
-
+  //     debugger
   //   })
   // }
 
@@ -127,7 +134,6 @@ const initialListings = []
       username: signupValues.username,
       password: signupValues.password,
       primaryemail: signupValues.email,
-      listing: [],
 
     }
 
@@ -138,12 +144,18 @@ const initialListings = []
                 history.push('/login')
                 setSignupValues(initialSignupValues)
             })
+
+            // .then(() => {
+            //   axios
+            //   .post('https://reqres.in/api/users/3', newUser)
+            //   .finally(() =>{
+            //     axios
+            //     .
+            //   })
+            // })
             .catch(err=>{
                 console.log(err)
             })
-            // .finally(() => {
-            //   history.push('/login')
-            // })
   }
   
 
@@ -170,6 +182,9 @@ const initialListings = []
         })
         .catch(err=>{
             console.log(err)
+        })
+        .finally(() => {
+          getUserInfo()
         })
   }
 
@@ -205,6 +220,14 @@ const initialListings = []
   //   });
   // }, [signupValues])
 
+  useEffect(() => {
+    axios
+      .get('https://reqres.in/api/users/')
+      .then(res => {
+        console.log(res.data)
+      })
+  }, signupValues)
+
   return (
   <div className="App">
       <nav className="App-header">
@@ -218,7 +241,9 @@ const initialListings = []
       <div className='body'>
       <Switch>
 
-      <PrivateRoute exact path='/userprofile' component={UserProfile}/>
+      <PrivateRoute exact path='/userprofile'>
+        <UserProfile onChange={onInputChange} values={listingValues} userInfo={userInfo}/>
+      </PrivateRoute>
       <PrivateRoute exact path='/listingcard' component={ListingCard}/>
       <PrivateRoute>
           <CreateListing path='/createlisting' onSubmit={onAddListing} values={listingValues} onChange={onInputChange}/>
@@ -227,7 +252,7 @@ const initialListings = []
       {/* <PrivateRoute exact path='/createlisting' component={CreateListing}/>
       <PrivateRoute path='/listingcard/:id' component={ListingCard}/> */}
 
-        {/* <Route path='/createlisting'>
+        {/* <PrivateRoute exact path='/createlisting'>
           <CreateListing onChange={onInputChange} values={listingValues}/>
         </Route> */}
 
