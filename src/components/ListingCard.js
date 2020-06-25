@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axiosWithAuth from '../utils/axiosWithAuth'
 import {useHistory, useParams} from 'react-router-dom';
-import {Form, Button, Label, Error} from '../style/style'
+import {Form, Button, Label} from '../style/style'
 
 const ListingCard = () => {
 

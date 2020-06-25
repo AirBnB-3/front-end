@@ -71,22 +71,6 @@ export default function CreateListing(props) {
             </Label>
             {/* <Error>{errors.minnumnights}</Error> */}
 
-            <Label>Beds:&nbsp;
-                <select
-                    name='numbeds'
-                    onChange={onChange}
-                    value={values.numbeds}
-                >
-                    <option value=''>-- Select One --</option>
-                    <option value='1'>1</option>
-                    <option value='2'>2</option>
-                    <option value='3'>3</option>
-                    <option value='4'>4</option>
-                    <option value='5'>5</option>
-                    <option value='6'>6</option>
-                </select>
-            </Label>
-            {/* <Error>{errors.password}</Error> */}
 
         
             <Button id='submitBtn' disabled={disabled}>Add Listing</Button>
