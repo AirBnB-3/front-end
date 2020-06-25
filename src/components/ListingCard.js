@@ -1,26 +1,25 @@
 import React, {useState, useEffect} from 'react';
 import axiosWithAuth from '../utils/axiosWithAuth'
 import {useHistory, useParams} from 'react-router-dom';
-import {Form, Button, Label, Error} from '../style/style'
+import {Form, Button, Label} from '../style/style'
 
 const ListingCard = () => {
 
     const [editing, setEditing] = useState(false);
-    const userId = localStorage.getItem('user id')
+    
     const { id } = useParams();
     const history = useHistory()
     const [listingData, setListingData] = useState([])
 
     
     const listing = {
-        listingname: listingData.listingname,
-        location: listingData.location,
-        maxnumguests: listingData.maxnumguests,
-        minnumnights: listingData.minnumnights,
-        numbeds: listingData.numbeds,
-        petsallowed: listingData.petsallowed,
-        optimalPrice: listingData.optimalPrice,
-        userId: parseInt(userId) }
+        listingId: listingData.listingId,
+        roomtype: listingData.roomtype,
+        neighbourhood: listingData.neighbourhood,
+        accomodates:listingData.accomodates,
+        minnum_nights:listingData.minnum_nights,
+        optimalPrice: listingData.optimalPrice
+    }
 
         
     const onChange = e =>{
@@ -84,16 +83,16 @@ const editEntry = () =>{
        <div>
             <div>
                 <h2>Optimal price for this listing: {listingData.optimalPrice}</h2>
-                <h4>Listing name: {listingData.listingname}</h4>
-                <h4>Location: {listingData.location}</h4>
-                <h4>Maximum guests: {listingData.maxnumguests}</h4>
-                <h4>Minimum nights: {listingData.minnumnights}</h4> 
-                <h4>Beds: {listingData.numbeds}</h4> 
-                <h4>Pets allowed: {listingData.petsallowed}</h4>  
+                 <h4>Neighbourhood: {listingData.neighbourhood}</h4>
+                <h4>Maximum guests: {listingData.accomodates}</h4>
+                <h4>Minimum nights: {listingData.minnum_nights}</h4> 
+                <h4>Room type: {listingData.roomtype}</h4> 
+                
                 <button onClick={editEntry}>Edit</button>
                 <button onClick={()=>{deleteEntry(id)}}>Delete</button>
             </div>
-            {editing ? (<form onSubmit={saveEntry}>
+           
+            {editing ? (<Form onSubmit={saveEntry}>
                 <Label>Listing Name:&nbsp;
                 <input
                     type='text'
@@ -184,12 +183,11 @@ const editEntry = () =>{
                     type='radio'
                 />
                 </Label> 
-                <button type='submit'>Save Edit</button>
+                <Button type='submit'>Save Edit</Button>
+                </Form>): <h4>Thank you for using OptimalPrice!</h4>}
       
-                </form>)
-                :(
-                    <h1>Welcome to the Thunderdome</h1>
-                )}
+        
+               
         </div> 
     )
 }

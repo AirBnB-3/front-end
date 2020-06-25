@@ -1,10 +1,9 @@
-import React, {useState} from 'react'
-import styled from 'styled-components'
+import React from 'react'
 import {Form, Button, Label} from '../style/style'
 
 
 export default function Login(props) {
-    const {onSubmit, values, onChange} = props
+    const {onSubmit, onChange} = props
 
 
     return(

@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
-import styled from 'styled-components'
+import React from 'react'
+
 import {Form, Button, Label, Error} from '../style/style'
 
 
 export default function Signup(props) {
 
-    const {onSubmit, values, onChange, errors, disabled} = props
+    const {onSubmit, onChange, errors, disabled} = props
 
     return(
         <Form onSubmit={onSubmit}>
@@ -51,7 +51,7 @@ export default function Signup(props) {
 
             <Label>Password:&nbsp;
                 <input 
-                    type='text'
+                    type='password'
                     name='password'
                     onChange={onChange}
                 />
