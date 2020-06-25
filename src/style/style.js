@@ -7,7 +7,7 @@ const Form = styled.form`
     display:flex;
     flex-direction:column;
     align-items:center;
-    border:4px solid black;
+    border:4px solid white;
     padding: 0% 0% 3% 0%;
     margin-top: 3%;
     border-radius: 20px;
@@ -28,6 +28,7 @@ const Label = styled.label`
     border-radius:20px;
     width:40%;
     font-size: 1.2rem;
+    border: 2px solid white;
 `
 
 const Error = styled.p`
