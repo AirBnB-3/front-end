@@ -65,10 +65,10 @@ const initialListings = []
 
   const getUserInfo = () => {
     axiosWithAuth()
-    .get('https://reqres.in/api/users/2')
-    // .get('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/getuserinfo')
+    // .get('https://reqres.in/api/users/2')
+    .get('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/getuserinfo')
     .then(res => {
-      setUserInfo(res.data.data)
+      // setUserInfo(res.data.data)
       console.log(res.data)
 
 
@@ -76,9 +76,9 @@ const initialListings = []
     .catch(err => {
       debugger
     })
-    .finally(() =>{
-      console.log(userInfo)
-    })
+    // .finally(() =>{
+    //   console.log(userInfo)
+    // })
   }
 
 
@@ -137,7 +137,6 @@ const initialListings = []
       username: signupValues.username,
       password: signupValues.password,
       primaryemail: signupValues.email,
-      listing: [],
 
     }
 
@@ -151,7 +150,11 @@ const initialListings = []
 
             // .then(() => {
             //   axios
-            //   .post('https://reqres.in/api/users/', newUser)
+            //   .post('https://reqres.in/api/users/3', newUser)
+            //   .finally(() =>{
+            //     axios
+            //     .
+            //   })
             // })
             .catch(err=>{
                 console.log(err)
@@ -223,13 +226,13 @@ const initialListings = []
   //   });
   // }, [signupValues])
 
-  // useEffect(() => {
-  //   axios
-  //     .get('https://reqres.in/api/users/')
-  //     .then(res => {
-  //       console.log(res.data)
-  //     })
-  // }, signupValues)
+  useEffect(() => {
+    axios
+      .get('https://reqres.in/api/users/')
+      .then(res => {
+        console.log(res.data)
+      })
+  }, signupValues)
 
   return (
   <div className="App">
