@@ -37,11 +37,11 @@ const initialErrors= {
 }
 
 const initialListingValues= {
-  listingId:'',
-  optimalPrice: 0,
+  
+  optimalPrice: 250,
   roomtype: '',
   neighbourhood: '',
-  accomodates:0,
+  accomodates: 0,
   minnumnights: 0,
 
 }
@@ -194,17 +194,19 @@ const initialListings = []
     e.preventDefault()
     
     const newListing = {
-      
+      optimalPrice: listingValues.optimalPrice,
       roomtype: listingValues.roomtype,
       neighbourhood: listingValues.neighbourhood,
       accomodates: listingValues.accomodates,
-      minnum_nights: listingValues.minnum_nights,
+      minnumnights: listingValues.minnumnights,
     }
+    const userid = localStorage.getItem('userid')
+      console.log(userid)
 
     axiosWithAuth()
-      .post('/listings/:id/', newListing)
+      .post(`/listings/user/${userid}/`, newListing)
       .then(res => {
-          console.log(res)
+          console.log(res.data)
           setListings(res.data)
           // history.push('http://localhost:3000/userprofile')
       })
