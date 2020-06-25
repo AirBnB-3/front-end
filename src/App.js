@@ -57,7 +57,7 @@ const initialListings = []
   const history = useHistory();
   const [formErrors, setFormErrors] = useState(initialErrors)
   const [disabled, setDisabled] = useState(initialDisabled)
-  const [userInfo, setUserInfo] = useState({})
+  const [userInfo, setUserInfo] = useState([])
   const [listingValues, setListingValues] = useState(initialListingValues)
   const [listings, setListings] = useState(initialListings)
 
@@ -245,7 +245,9 @@ const initialListings = []
       <div className='body'>
       <Switch>
 
-      <PrivateRoute exact path='/userprofile' component={UserProfile(userInfo, setUserInfo)}/>
+      <PrivateRoute exact path='/userprofile'> 
+        <UserProfile userInfo={userInfo} setUserInfo={setUserInfo}/>
+      </PrivateRoute>
      
       <PrivateRoute exact path='/listingcard' component={ListingCard}/>
       <PrivateRoute exact path='/createlisting' component={CreateListing} onSubmit={onAddListing} values={listingValues} setListingValues={setListingValues} listingValues={listingValues} />

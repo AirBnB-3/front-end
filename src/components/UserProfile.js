@@ -2,24 +2,25 @@ import React, {useEffect} from 'react';
 import {useHistory, Link} from 'react-router-dom'
 
 import {FormContainer, Button} from '../style/style'
-import axiosWithAuth from '../utils/axiosWithAuth';
+// import axiosWithAuth from '../utils/axiosWithAuth';
+import axios from 'axios';
 
 
 export default function UserProfile(props){
     
     const { userInfo, setUserInfo} = props
-    console.log(props)
+    // console.log(props)
     const history = useHistory()
 
-    useEffect(()=>{
-        axiosWithAuth()
-            .get('/users/getuserinfo')
+    // useEffect(()=>{
+        axios
+            .get('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/getuserinfo')
             .then(res => {
-                console.log(res.data)
+                console.log('this is the user data', res)
                 setUserInfo(res.data)
             })
             .catch(err => console.log(err))
-        }, {})
+        // }, [])
 
     return(
         <FormContainer>
