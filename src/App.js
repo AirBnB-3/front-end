@@ -218,11 +218,11 @@ const initialListings = []
       })
   }
 
-  // useEffect(() => {
-  //   formSchema.isValid(signupValues).then(valid => {
-  //     setDisabled(!valid);
-  //   });
-  // }, [signupValues])
+  useEffect(() => {
+    formSchema.isValid(signupValues).then(valid => {
+      setDisabled(!valid);
+    });
+  }, [signupValues])
 
   // useEffect(() => {
   //   axios
