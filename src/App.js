@@ -263,6 +263,10 @@ const initialListings = []
           {/* <CreateListing onChange={onAddListing} values={listingValues}/> */}
         </Route>
 
+        <Route exact path='/'>
+          <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
+        </Route>
+
       </Switch>
 
     </div>
