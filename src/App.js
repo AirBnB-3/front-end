@@ -176,7 +176,7 @@ const initialListings = []
             // localStorage.setItem('user id', res.data.userid)
             const token = localStorage.getItem('token')
            
-            history.push('/userprofile')
+            
             console.log(token)
             
             console.log(res)
@@ -187,6 +187,7 @@ const initialListings = []
         })
         .finally(() => {
           getUserInfo()
+          history.push('/userprofile')
         })
   }
 
@@ -257,7 +258,7 @@ const initialListings = []
         <UserProfile userInfo={userInfo} setUserInfo={setUserInfo}/>
       </PrivateRoute>
      
-      <PrivateRoute path='/listingcard' component={ListingCard}/>
+      <PrivateRoute path='/listingcard/:listingid' component={ListingCard}/>
       <PrivateRoute exact path='/createlisting'>
         <CreateListing onSubmit={onAddListing} values={listingValues} setListingValues={setListingValues} listingValues={listingValues} />
       </PrivateRoute>

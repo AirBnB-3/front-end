@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axiosWithAuth from '../utils/axiosWithAuth'
 import {useHistory, useParams} from 'react-router-dom';
-import {Form, Button, Label} from '../style/style'
+import {Form, FormContainer, Button, Label, Card} from '../style/style'
 
 const ListingCard = () => {
 
@@ -9,17 +9,30 @@ const ListingCard = () => {
     
     const { listingid } = useParams();
     const history = useHistory()
-    const [listingData, setListingData] = useState([])
-
     
-    const listing = {
-        listingid: listingData.listingid,
-        roomtype: listingData.roomtype,
-        neighbourhood: listingData.neighbourhood,
-        accomodates:listingData.accomodates,
-        minnumnights:listingData.minnumnights,
-        optimalPrice: listingData.optimalPrice
-    }
+    
+    const [listingData, setListingData]= useState([])
+    // console.log(props)
+
+    useEffect(()=>{
+        axiosWithAuth()
+            .get(`/listings/listing/${listingid}`)
+            .then(res => {
+                console.log('this is the user data', res)
+                setListingData(res.data)
+                console.log('this is listing data', listingData)
+            })
+            .catch(err => console.log(err))
+        },[])
+    
+    // const listing = {
+    //     listingid: listingData.listingid,
+    //     roomtype: listingData.roomtype,
+    //     neighbourhood: listingData.neighbourhood,
+    //     accomodates:listingData.accomodates,
+    //     minnumnights:listingData.minnumnights,
+    //     optimalPrice: listingData.optimalPrice
+    // }
 
         
     const onChange = e =>{
@@ -34,11 +47,11 @@ const ListingCard = () => {
     //Use effect fires when component mounts, then sending out axios call
     useEffect(()=>{
         getData()
-    },[])
+    }, [])
 
     const getData = () =>{
         axiosWithAuth()
-            .get(`https://seanmx96-airbnb-optimal-price.herokuapp.com//listings/listing/${listingid}`)
+            .get(`/listings/listing/${listingid}`)
             .then(res=>{
                 console.log(res)
                 setListingData(res.data)
@@ -51,28 +64,29 @@ const ListingCard = () => {
 
 const deleteEntry = () =>{
     axiosWithAuth()
-        .delete(`https://seanmx96-airbnb-optimal-price.herokuapp.com//listings/listing/${listingid}`)
+        .delete(`/listings/listing/${listingid}`)
         .then(res=>{
             console.log(res)
-            history.push('/userprofile');
+            
         })
         .catch(err=>{
             console.log(err)
-        })
+        }).finally(history.push('/userprofile'));
 
 }
 const saveEntry = e =>{
     e.preventDefault()
+    console.log('save entry listing data', listingData)
     axiosWithAuth()
-        .put(`https://seanmx96-airbnb-optimal-price.herokuapp.com//listings/listing/${listingid}`, listing)
+        .patch(`/listings/listing/${listingid}`, listingData)
         .then(res=>{
-            console.log(res)
+            console.log('save entry', res)
             setEditing(!editing)
-            history.push('/userprofile');
+            
         })
         .catch(err=>{
-            console.log(err)
-        })
+            console.log('save entry', err)
+        }).finally (history.push('/userprofile'));
 
 }
 const editEntry = () =>{
@@ -80,34 +94,26 @@ const editEntry = () =>{
 }
 
     return(
-       <div>
-            <div>
+       <FormContainer>
+            <Card>
                 <h2>Optimal price for this listing: {listingData.optimalPrice}</h2>
-                 <h4>Neighbourhood: {listingData.neighbourhood}</h4>
-                <h4>Maximum guests: {listingData.accomodates}</h4>
-                <h4>Minimum nights: {listingData.minnumnights}</h4> 
-                <h4>Room type: {listingData.roomtype}</h4> 
+                 <Label>Neighbourhood: {listingData.neighbourhood}</Label>
+                <Label>Maximum guests: {listingData.accomodates}</Label>
+                <Label>Minimum nights: {listingData.minnumnights}</Label> 
+                <Label>Room type: {listingData.roomtype}</Label> 
                 
-                <button onClick={editEntry}>Edit</button>
-                <button onClick={()=>{deleteEntry(listingData.listingid)}}>Delete</button>
-            </div>
+                <Button onClick={editEntry}>Edit</Button>
+                <Button onClick={()=>{deleteEntry(listingData.listingid)}}>Delete</Button>
+            </Card>
            
             {editing ? (<Form onSubmit={saveEntry}>
-                <Label>Listing Name:&nbsp;
-                <input
-                    type='text'
-                    name='listingname'
-                    onChange={onChange}
-                    value={listingData.listingname}
-                />
-            </Label>
-            {/* <Error>{errors.listingname}</Error> */}
+                
 
             <Label>Neighbourhood:&nbsp;
                 <input
                     type='text'
-                    name='location'
-                    value={listingData.neighbourhood}
+                    name='neighbourhood'
+                    defaultValue={listingData.neighbourhood}
                     onChange={onChange}
                 />
             </Label>
@@ -163,11 +169,11 @@ const editEntry = () =>{
 
            
                 <Button type='submit'>Save Edit</Button>
-                </Form>): <h4>Thank you for using OptimalPrice!</h4>}
+                </Form>): <Label>Thank you for using OptimalPrice!</Label>}
       
         
                
-        </div> 
+        </FormContainer> 
     )
 }
 export default ListingCard
