@@ -216,6 +216,7 @@ const initialListings = []
       })
       .finally(() => {
         console.log(listings)
+        history.push('/userprofile')
       })
   }
 
@@ -262,6 +263,10 @@ const initialListings = []
       <PrivateRoute exact path='/createlisting'>
         <CreateListing onSubmit={onAddListing} values={listingValues} setListingValues={setListingValues} listingValues={listingValues} />
       </PrivateRoute>
+          <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
+      <Route path ='/'>
+        
+      </Route>
      
 
        

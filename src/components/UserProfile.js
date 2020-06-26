@@ -6,7 +6,7 @@ import axiosWithAuth from '../utils/axiosWithAuth';
 
 
 export default function UserProfile(props){
-    
+    const {userInfo} = props
     const [userListings, setUserListings]= useState([])
     // console.log(props)
     const history = useHistory()
@@ -18,14 +18,18 @@ export default function UserProfile(props){
                 console.log('this is the user data', res)
                 setUserListings(res.data.listings)
                 console.log('this is user info', userListings)
+                console.log(userInfo)
             })
             .catch(err => console.log(err))
         },[])
  
     return(
         <FormContainer>
-            <h1 className='profile'>Welcome {userListings.username}</h1>
-            <Button onClick={()=>{history.push('/createlisting')}}>+ ADD ENTRY</Button>
+            <div className='profile-div'>
+            <h1 className='profile'>Welcome {userInfo.username}</h1>
+            <p>{userInfo.primaryemail}</p>
+            </div>
+            <Button onClick={()=>{history.push('/createlisting')}}>+ ADD LISTING</Button>
             
                 {userListings && userListings.map(listing=>{
                     return (
