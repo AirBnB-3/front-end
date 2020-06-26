@@ -13,13 +13,13 @@ export default function UserProfile(props){
     const history = useHistory()
 
     // useEffect(()=>{
-        axios
-            .get('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/getuserinfo')
-            .then(res => {
-                console.log('this is the user data', res)
-                setUserInfo(res.data)
-            })
-            .catch(err => console.log(err))
+        // axios
+        //     .get('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/getuserinfo')
+        //     .then(res => {
+        //         console.log('this is the user data', res)
+        //         setUserInfo(res.data)
+        //     })
+        //     .catch(err => console.log(err))
         // }, [])
 
     return(
