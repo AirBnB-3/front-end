@@ -5,7 +5,15 @@ import '../style/Form.css'
 
 export default function CreateListing(props) {
     
-    const {onSubmit, values, onChange, disabled} = props
+    const {onSubmit, values, disabled, setListingValues, listingValues} = props
+
+    const onChange = evt => {
+        const {name, value} = evt.target
+        setListingValues({
+            ...listingValues,
+            [name]: value
+          })
+        }
   
     return(
         <Form onSubmit={onSubmit}>
@@ -57,17 +65,17 @@ export default function CreateListing(props) {
 
             <Label>Minimum Stay:&nbsp;
                 <select
-                    name='minnum_nights'
+                    name='minnumnights'
                     onChange={onChange}
-                    value={values.minnum_nights}
+                    value={values.minnumnights}
                 >
-                    <option value=''>-- None --</option>
-                    <option value='One Night'>One Night</option>
-                    <option value='Two Nights'>Two Nights</option>
-                    <option value='Three Nights'>Three Night</option>
-                    <option value='Four Nights'>Four Nights</option>
-                    <option value='Five Nights'>Five Nights</option>
-                    <option value='Six Nights'>Six Nights</option>
+                    <option value='0'>-- None --</option>
+                    <option value='1'>One Night</option>
+                    <option value='2'>Two Nights</option>
+                    <option value='3'>Three Night</option>
+                    <option value='4'>Four Nights</option>
+                    <option value='5'>Five Nights</option>
+                    <option value='6'>Six Nights</option>
                 </select>
             </Label>
             {/* <Error>{errors.minnumnights}</Error> */}
