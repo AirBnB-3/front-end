@@ -34,6 +34,7 @@ const Label = styled.label`
 const Error = styled.p`
     font-size:.8rem;
     color: red;
+    background: rgba(0, 0, 0, 0.8);
 `
 
 const FormContainer= styled.div`
@@ -41,6 +42,7 @@ const FormContainer= styled.div`
     display:flex;
     align-items:center;
     flex-direction: column;
+    color:white;
 `
 
 

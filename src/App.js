@@ -224,20 +224,20 @@ const initialListings = []
   //   });
   // }, [signupValues])
 
-  useEffect(() => {
-    axios
-      .get('https://reqres.in/api/users/')
-      .then(res => {
-        console.log(res.data)
-      })
-  }, signupValues)
+  // useEffect(() => {
+  //   axios
+  //     .get('https://reqres.in/api/users/')
+  //     .then(res => {
+  //       console.log(res.data)
+  //     })
+  // }, [signupValues])
 
   return (
   <div className="App">
       <nav className="App-header">
         <h1>AirBnb Price Optimization</h1>
         <div className='nav-links'>
-          <a className='link' href='https://airbnb-3.github.io/user-interface-zave/'>Home</a>
+          <a className='link' href='https://airbnb-3.github.io/user-interface-zave/'>About</a>
           <Link className='link' to='/login'>Login</Link>
           <Link className='link' to='/signup'>Sign Up</Link>
         </div>
