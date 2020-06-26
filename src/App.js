@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 
-import {BrowserRouter as  Switch, Route, Link, useHistory} from 'react-router-dom';
+import {Switch, Route, Link, useHistory} from 'react-router-dom';
 import axios from 'axios';
 import axiosWithAuth from './utils/axiosWithAuth';
 import * as Yup from 'yup';
@@ -244,24 +244,26 @@ const initialListings = []
       </nav>
       <div className='body'>
       <Switch>
+        <Route exact path='/signup'>
+          <Signup onSubmit={onSignup} onChange={onInputChange} values={signupValues} errors={formErrors} disabled={disabled}/>
+          {/* <CreateListing onChange={onAddListing} values={listingValues}/> */}
+        </Route> 
+        
+        <Route exact path='/login'>
+          <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
+        </Route>
 
       <PrivateRoute exact path='/userprofile'> 
         <UserProfile userInfo={userInfo} setUserInfo={setUserInfo}/>
       </PrivateRoute>
      
-      <PrivateRoute exact path='/listingcard' component={ListingCard}/>
+      <PrivateRoute path='/listingcard' component={ListingCard}/>
       <PrivateRoute exact path='/createlisting'>
         <CreateListing onSubmit={onAddListing} values={listingValues} setListingValues={setListingValues} listingValues={listingValues} />
       </PrivateRoute>
-      <Route exact path='/login'>
-          <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
-        </Route>
+     
 
-        <Route exact path='/signup'>
-          <Signup onSubmit={onSignup} onChange={onInputChange} values={signupValues} errors={formErrors} disabled={disabled}/>
-          {/* <CreateListing onChange={onAddListing} values={listingValues}/> */}
-        </Route>
-
+       
         </Switch>
 
     </div>
