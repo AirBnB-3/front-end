@@ -209,13 +209,14 @@ const initialListings = []
       .then(res => {
           console.log(res.data)
           setListings(res.data)
-          // history.push('http://localhost:3000/userprofile')
+          
       })
       .catch(err =>{
         debugger
       })
       .finally(() => {
         console.log(listings)
+        history.push('http://localhost:3000/userprofile')
       })
   }
 
