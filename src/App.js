@@ -254,7 +254,7 @@ const initialListings = []
           <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
         </Route>
 
-      <PrivateRoute exact path='/userprofile'> 
+      <PrivateRoute  path='/userprofile'> 
         <UserProfile userInfo={userInfo} setUserInfo={setUserInfo}/>
       </PrivateRoute>
      
