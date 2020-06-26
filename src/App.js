@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 
-import {BrowserRouter as Router, Switch, Route, Link, useHistory} from 'react-router-dom';
+import {BrowserRouter as  Switch, Route, Link, useHistory} from 'react-router-dom';
 import axios from 'axios';
 import axiosWithAuth from './utils/axiosWithAuth';
 import * as Yup from 'yup';
@@ -37,11 +37,12 @@ const initialErrors= {
 }
 
 const initialListingValues= {
-  listingId:'',
+  
+  optimalPrice: 250,
   roomtype: '',
   neighbourhood: '',
-  accomodates:'',
-  minnum_nights:'',
+  accomodates: 0,
+  minnumnights: 0,
 
 }
 
@@ -65,15 +66,18 @@ const initialListings = []
     // .get('https://reqres.in/api/users/2')
     .get('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/getuserinfo')
     .then(res => {
-      // setUserInfo(res.data.data)
       setUserInfo(res.data)
+      console.log(res.data.userid)
+      localStorage.setItem('userid', res.data.userid)
+      const userid = localStorage.getItem('userid')
+      console.log(userid)
+
+
     })
     .catch(err => {
       debugger
     })
-    // .finally(() =>{
-    //   console.log(userInfo)
-    // })
+    
   }
 
 
@@ -106,10 +110,10 @@ const initialListings = []
       [name]: value
     })
 
-    setListingValues({
-      ...listingValues,
-      [name]: value
-    })
+    // setListingValues({
+    //   ...listingValues,
+    //   [name]: value
+    // })
 
     // console.log(signupValues)
   }
@@ -160,7 +164,7 @@ const initialListings = []
   const onLogin = e => {
     e.preventDefault()
     axiosWithAuth()
-        .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/login', `grant_type=password&username=${loginValues.username}&password=${loginValues.password}`, {
+        .post('/login', `grant_type=password&username=${loginValues.username}&password=${loginValues.password}`, {
           headers: {
             Authorization: `Basic ${btoa('lambda-client:lambda-secret')}`,
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -169,12 +173,12 @@ const initialListings = []
         })
         .then(res=>{
             localStorage.setItem('token', res.data.access_token)
-            localStorage.setItem('user id', res.data.userId)
+            // localStorage.setItem('user id', res.data.userid)
             const token = localStorage.getItem('token')
-            const userId = localStorage.getItem('user id')
+           
             history.push('/userprofile')
             console.log(token)
-            console.log(userId)
+            
             console.log(res)
             setLoginValues(initialLoginValues)
         })
@@ -190,17 +194,19 @@ const initialListings = []
     e.preventDefault()
     
     const newListing = {
-      
+      optimalPrice: listingValues.optimalPrice,
       roomtype: listingValues.roomtype,
       neighbourhood: listingValues.neighbourhood,
       accomodates: listingValues.accomodates,
-      minnum_nights: listingValues.minnum_nights,
+      minnumnights: listingValues.minnumnights,
     }
+    const userid = localStorage.getItem('userid')
+      console.log(userid)
 
-    axios
-      .post('https://seanmx96-airbnb-optimal-price.herokuapp.com/listings/user/:id/', newListing)
+    axiosWithAuth()
+      .post(`/listings/user/${userid}/`, newListing)
       .then(res => {
-          console.log(res)
+          console.log(res.data)
           setListings(res.data)
           // history.push('http://localhost:3000/userprofile')
       })
@@ -239,22 +245,13 @@ const initialListings = []
       <div className='body'>
       <Switch>
 
-      <PrivateRoute exact path='/userprofile'>
-        <UserProfile onChange={onInputChange} values={listingValues} userInfo={userInfo}/>
+      <PrivateRoute exact path='/userprofile'> 
+        <UserProfile userInfo={userInfo} setUserInfo={setUserInfo}/>
       </PrivateRoute>
+     
       <PrivateRoute exact path='/listingcard' component={ListingCard}/>
-      {/* <PrivateRoute>
-          <CreateListing path='/createlisting' onSubmit={onAddListing} values={listingValues} onChange={onInputChange}/>
-      </PrivateRoute> */}
-   
-      {/* <PrivateRoute exact path='/createlisting' component={CreateListing}/>
-      <PrivateRoute path='/listingcard/:id' component={ListingCard}/> */}
-
-        {/* <PrivateRoute exact path='/createlisting'>
-          <CreateListing onChange={onInputChange} values={listingValues}/>
-        </Route> */}
-
-        <Route exact path='/login'>
+      <PrivateRoute exact path='/createlisting' component={CreateListing} onSubmit={onAddListing} values={listingValues} setListingValues={setListingValues} listingValues={listingValues} />
+      <Route exact path='/login'>
           <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
         </Route>
 
@@ -263,11 +260,15 @@ const initialListings = []
           {/* <CreateListing onChange={onAddListing} values={listingValues}/> */}
         </Route>
 
+<<<<<<< HEAD
         <Route exact path='/'>
           <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
         </Route>
 
       </Switch>
+=======
+        </Switch>
+>>>>>>> fa9db16a27cb19e7b33193830b2fb84631346ec2
 
     </div>
   </div>
