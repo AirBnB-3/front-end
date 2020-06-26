@@ -44,7 +44,18 @@ const FormContainer= styled.div`
     flex-direction: column;
     color:white;
 `
+const Card=styled.div`
+    width: 50%;
+    height: 100%;
+    margin: 5%;
+    background: lightblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+    border: 2px solid white;
+    
+`
 
 
-
-export {Form, Button, Label, Error, FormContainer}
+export {Form, Button, Label, Error, FormContainer, Card}

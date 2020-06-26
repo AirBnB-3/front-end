@@ -176,7 +176,7 @@ const initialListings = []
             // localStorage.setItem('user id', res.data.userid)
             const token = localStorage.getItem('token')
            
-            history.push('/userprofile')
+            
             console.log(token)
             
             console.log(res)
@@ -187,6 +187,7 @@ const initialListings = []
         })
         .finally(() => {
           getUserInfo()
+          history.push('/userprofile')
         })
   }
 
@@ -218,11 +219,11 @@ const initialListings = []
       })
   }
 
-  // useEffect(() => {
-  //   formSchema.isValid(signupValues).then(valid => {
-  //     setDisabled(!valid);
-  //   });
-  // }, [signupValues])
+  useEffect(() => {
+    formSchema.isValid(signupValues).then(valid => {
+      setDisabled(!valid);
+    });
+  }, [signupValues])
 
   // useEffect(() => {
   //   axios
@@ -244,27 +245,27 @@ const initialListings = []
       </nav>
       <div className='body'>
       <Switch>
+        <Route exact path='/signup'>
+          <Signup onSubmit={onSignup} onChange={onInputChange} values={signupValues} errors={formErrors} disabled={disabled}/>
+          {/* <CreateListing onChange={onAddListing} values={listingValues}/> */}
+        </Route> 
+        
+        <Route exact path='/login'>
+          <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
+        </Route>
 
       <PrivateRoute  path='/userprofile'> 
         <UserProfile userInfo={userInfo} setUserInfo={setUserInfo}/>
       </PrivateRoute>
      
-      <PrivateRoute  path='/listingcard' component={ListingCard}/>
-      <PrivateRoute  path='/createlisting' component={CreateListing} onSubmit={onAddListing} values={listingValues} setListingValues={setListingValues} listingValues={listingValues} />
-        <Route  path='/login'>
-          <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
-        </Route>
+      <PrivateRoute path='/listingcard/:listingid' component={ListingCard}/>
+      <PrivateRoute exact path='/createlisting'>
+        <CreateListing onSubmit={onAddListing} values={listingValues} setListingValues={setListingValues} listingValues={listingValues} />
+      </PrivateRoute>
+     
 
-        <Route path='/signup'>
-          <Signup onSubmit={onSignup} onChange={onInputChange} values={signupValues} errors={formErrors} disabled={disabled}/>
-          {/* <CreateListing onChange={onAddListing} values={listingValues}/> */}
-        </Route>
-
-        <Route path='/'>
-          <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
-        </Route>
-
-      </Switch>
+       
+        </Switch>
 
     </div>
   </div>

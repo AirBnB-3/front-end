@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, Button, Label, Error} from '../style/style'
+import {Form, Button, Label} from '../style/style'
 import '../style/Form.css'
 
 
@@ -70,7 +70,7 @@ export default function CreateListing(props) {
                     value={values.minnumnights}
                 >
                     <option value='0'>-- None --</option>
-                    <option value='1'>One Night</option>
+                    <option value= '1'>One Night</option>
                     <option value='2'>Two Nights</option>
                     <option value='3'>Three Night</option>
                     <option value='4'>Four Nights</option>

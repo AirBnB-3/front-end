@@ -1,46 +1,46 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useHistory, Link} from 'react-router-dom'
 
-import {FormContainer, Button} from '../style/style'
-// import axiosWithAuth from '../utils/axiosWithAuth';
-import axios from 'axios';
+import {FormContainer, Button, Card, Label} from '../style/style'
+import axiosWithAuth from '../utils/axiosWithAuth';
 
 
 export default function UserProfile(props){
     
-    const { userInfo, setUserInfo} = props
+    const [userListings, setUserListings]= useState([])
     // console.log(props)
     const history = useHistory()
 
-    // useEffect(()=>{
-        // axios
-        //     .get('https://seanmx96-airbnb-optimal-price.herokuapp.com/users/getuserinfo')
-        //     .then(res => {
-        //         console.log('this is the user data', res)
-        //         setUserInfo(res.data)
-        //     })
-        //     .catch(err => console.log(err))
-        // }, [])
-
+    useEffect(()=>{
+        axiosWithAuth()
+            .get('/users/getuserinfo')
+            .then(res => {
+                console.log('this is the user data', res)
+                setUserListings(res.data.listings)
+                console.log('this is user info', userListings)
+            })
+            .catch(err => console.log(err))
+        },[])
+ 
     return(
         <FormContainer>
-            <h1 className='profile'>Welcome {userInfo.username}</h1>
+            <h1 className='profile'>Welcome {userListings.username}</h1>
             <Button onClick={()=>{history.push('/createlisting')}}>+ ADD ENTRY</Button>
-            <div>
-                {userInfo.listings.map(listing=>{
+            
+                {userListings && userListings.map(listing=>{
                     return (
-                        <div key={listing.listingid}>
+                        <Card key={listing.listingid}>
                             <Link to ={`/listingcard/${listing.listingid}`}>Edit this entry</Link>
-                            <h2>Optimal Price: {listing.optimalPrice}</h2>
-                            <h4>Neighborhood: {listing.neighborhood}</h4>
-                            <h4>Room type: {listing.roomtype}</h4> 
-                            <h4>Maximum guests: {listing.accomodates}</h4>
-                            <h4>Minimum nights: {listing.minnumnights}</h4> 
-                         </div>   
+                            <Label>Optimal Price: {listing.optimalPrice}</Label>
+                            <Label>Neighborhood: {listing.neighbourhood}</Label>
+                            <Label>Room type: {listing.roomtype}</Label> 
+                            <Label>Maximum guests: {listing.accomodates}</Label>
+                            <Label>Minimum nights: {listing.minnumnights}</Label> 
+                         </Card>   
 
                     )
                 })}
-            </div>
+            
            
          
         </FormContainer>
