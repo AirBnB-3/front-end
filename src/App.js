@@ -251,24 +251,20 @@ const initialListings = []
      
       <PrivateRoute exact path='/listingcard' component={ListingCard}/>
       <PrivateRoute exact path='/createlisting' component={CreateListing} onSubmit={onAddListing} values={listingValues} setListingValues={setListingValues} listingValues={listingValues} />
-      <Route exact path='/login'>
+        <Route exact path='/login'>
           <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
         </Route>
 
-        <Route exact path='/signup'>
+        <Route path='/signup'>
           <Signup onSubmit={onSignup} onChange={onInputChange} values={signupValues} errors={formErrors} disabled={disabled}/>
           {/* <CreateListing onChange={onAddListing} values={listingValues}/> */}
         </Route>
 
-<<<<<<< HEAD
         <Route exact path='/'>
           <Login onSubmit={onLogin} onChange={onInputChange} values={loginValues}/>
         </Route>
 
       </Switch>
-=======
-        </Switch>
->>>>>>> fa9db16a27cb19e7b33193830b2fb84631346ec2
 
     </div>
   </div>
